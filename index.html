@@ -1,0 +1,579 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculadora de Huella de Carbono</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #eef5f0;
+            color: #24352b;
+        }
+
+        header {
+            background: #173f2a;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 17px;
+        }
+
+        .contenedor {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .introduccion {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .introduccion h2 {
+            margin-bottom: 12px;
+            color: #23613e;
+        }
+
+        .introduccion p {
+            line-height: 1.6;
+        }
+
+        .calculadora {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .tarjeta h2 {
+            color: #23613e;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid #5cae78;
+        }
+
+        .boton {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #267346;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .boton:hover {
+            background: #1b5834;
+        }
+
+        .resultados {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .resultado {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .resultado h3 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .numero {
+            font-size: 30px;
+            font-weight: bold;
+            color: #23613e;
+        }
+
+        .grafico {
+            background: white;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .grafico h2 {
+            color: #23613e;
+            margin-bottom: 20px;
+        }
+
+        .barra-contenedor {
+            margin: 20px 0;
+        }
+
+        .barra-titulo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        .barra {
+            width: 100%;
+            height: 35px;
+            background: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .barra-interna {
+            height: 100%;
+            width: 0%;
+            transition: width 0.8s;
+        }
+
+        #barraActual {
+            background: #b84c4c;
+        }
+
+        #barraEvitada {
+            background: #4e9b68;
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            padding: 18px;
+            background: #e3f3e7;
+            border-left: 5px solid #267346;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            background: #173f2a;
+            color: white;
+        }
+
+        @media (max-width: 800px) {
+            .calculadora {
+                grid-template-columns: 1fr;
+            }
+
+            .resultados {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌎 Calculadora de Huella de Carbono</h1>
+    <p>Huella de carbono y descarbonización energética</p>
+</header>
+
+<div class="contenedor">
+
+    <section class="introduccion">
+        <h2>¿Qué hace esta calculadora?</h2>
+
+        <p>
+            Esta herramienta permite estimar las emisiones de CO₂ asociadas
+            al consumo de electricidad y combustible. También permite simular
+            un escenario de descarbonización mediante la sustitución de una
+            parte del consumo energético por fuentes renovables.
+        </p>
+    </section>
+
+    <section class="calculadora">
+
+        <!-- ELECTRICIDAD -->
+        <div class="tarjeta">
+
+            <h2>⚡ Consumo de electricidad</h2>
+
+            <label for="electricidad">
+                Consumo mensual (kWh)
+            </label>
+
+            <input
+                type="number"
+                id="electricidad"
+                value="300"
+                min="0"
+            >
+
+            <label for="factorElectricidad">
+                Factor de emisión (kg CO₂/kWh)
+            </label>
+
+            <input
+                type="number"
+                id="factorElectricidad"
+                value="0.15"
+                step="0.01"
+                min="0"
+            >
+
+        </div>
+
+
+        <!-- COMBUSTIBLE -->
+        <div class="tarjeta">
+
+            <h2>⛽ Consumo de combustible</h2>
+
+            <label for="combustible">
+                Consumo mensual (litros)
+            </label>
+
+            <input
+                type="number"
+                id="combustible"
+                value="100"
+                min="0"
+            >
+
+            <label for="factorCombustible">
+                Factor de emisión (kg CO₂/L)
+            </label>
+
+            <input
+                type="number"
+                id="factorCombustible"
+                value="2.31"
+                step="0.01"
+                min="0"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- ESCENARIO DE DESCARBONIZACIÓN -->
+    <section class="tarjeta" style="margin-top:25px;">
+
+        <h2>🌱 Escenario de sustitución por renovables</h2>
+
+        <label for="renovable">
+            Porcentaje del consumo eléctrico sustituido por energía renovable
+        </label>
+
+        <input
+            type="range"
+            id="renovable"
+            min="0"
+            max="100"
+            value="30"
+            oninput="actualizarPorcentaje()"
+        >
+
+        <p style="text-align:center; margin-top:10px;">
+            <strong id="porcentajeTexto">30%</strong>
+        </p>
+
+        <button class="boton" onclick="calcular()">
+            Calcular huella de carbono
+        </button>
+
+    </section>
+
+
+    <!-- RESULTADOS -->
+    <section class="resultados">
+
+        <div class="resultado">
+            <h3>Emisiones actuales</h3>
+            <div class="numero">
+                <span id="actual">0</span>
+            </div>
+            <p>kg CO₂ / mes</p>
+        </div>
+
+        <div class="resultado">
+            <h3>Emisiones evitadas</h3>
+            <div class="numero">
+                <span id="evitadas">0</span>
+            </div>
+            <p>kg CO₂ / mes</p>
+        </div>
+
+        <div class="resultado">
+            <h3>Emisiones finales</h3>
+            <div class="numero">
+                <span id="final">0</span>
+            </div>
+            <p>kg CO₂ / mes</p>
+        </div>
+
+    </section>
+
+
+    <!-- GRÁFICO -->
+    <section class="grafico">
+
+        <h2>📊 Comparación de emisiones</h2>
+
+        <div class="barra-contenedor">
+
+            <div class="barra-titulo">
+                <span>Emisiones actuales</span>
+                <span id="textoActual">0 kg</span>
+            </div>
+
+            <div class="barra">
+                <div
+                    id="barraActual"
+                    class="barra-interna">
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="barra-contenedor">
+
+            <div class="barra-titulo">
+                <span>Emisiones evitadas</span>
+                <span id="textoEvitada">0 kg</span>
+            </div>
+
+            <div class="barra">
+                <div
+                    id="barraEvitada"
+                    class="barra-interna">
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="mensaje" id="mensaje">
+
+            Ingresa los datos y presiona
+            <strong>"Calcular huella de carbono"</strong>
+            para conocer los resultados.
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<footer>
+    <p>
+        Proyecto de Algoritmo y Programación
+    </p>
+
+    <p>
+        Ingeniería en Energías
+    </p>
+
+    <p>
+        Huella de Carbono y Descarbonización Energética
+    </p>
+</footer>
+
+
+<script>
+
+    function actualizarPorcentaje() {
+
+        let porcentaje =
+            document.getElementById("renovable").value;
+
+        document.getElementById("porcentajeTexto").innerText =
+            porcentaje + "%";
+    }
+
+
+    function calcular() {
+
+        // Obtener valores
+        let electricidad =
+            parseFloat(
+                document.getElementById("electricidad").value
+            ) || 0;
+
+        let combustible =
+            parseFloat(
+                document.getElementById("combustible").value
+            ) || 0;
+
+        let factorElectricidad =
+            parseFloat(
+                document.getElementById("factorElectricidad").value
+            ) || 0;
+
+        let factorCombustible =
+            parseFloat(
+                document.getElementById("factorCombustible").value
+            ) || 0;
+
+        let porcentajeRenovable =
+            parseFloat(
+                document.getElementById("renovable").value
+            ) || 0;
+
+
+        // Cálculo de emisiones
+        let emisionesElectricidad =
+            electricidad * factorElectricidad;
+
+        let emisionesCombustible =
+            combustible * factorCombustible;
+
+
+        // Emisiones totales actuales
+        let emisionesActuales =
+            emisionesElectricidad +
+            emisionesCombustible;
+
+
+        // Emisiones evitadas por energía renovable
+        let emisionesEvitadas =
+            emisionesElectricidad *
+            (porcentajeRenovable / 100);
+
+
+        // Emisiones después de la sustitución
+        let emisionesFinales =
+            emisionesActuales -
+            emisionesEvitadas;
+
+
+        // Mostrar resultados
+        document.getElementById("actual").innerText =
+            emisionesActuales.toFixed(2);
+
+        document.getElementById("evitadas").innerText =
+            emisionesEvitadas.toFixed(2);
+
+        document.getElementById("final").innerText =
+            emisionesFinales.toFixed(2);
+
+
+        document.getElementById("textoActual").innerText =
+            emisionesActuales.toFixed(2) + " kg";
+
+        document.getElementById("textoEvitada").innerText =
+            emisionesEvitadas.toFixed(2) + " kg";
+
+
+        // Gráfico
+        let maximo =
+            Math.max(
+                emisionesActuales,
+                emisionesEvitadas,
+                1
+            );
+
+        let anchoActual =
+            (emisionesActuales / maximo) * 100;
+
+        let anchoEvitada =
+            (emisionesEvitadas / maximo) * 100;
+
+
+        document.getElementById("barraActual").style.width =
+            anchoActual + "%";
+
+        document.getElementById("barraEvitada").style.width =
+            anchoEvitada + "%";
+
+
+        // Mensaje
+        let mensaje =
+            document.getElementById("mensaje");
+
+
+        if (porcentajeRenovable == 0) {
+
+            mensaje.innerHTML =
+                "No se ha aplicado sustitución por energías renovables. " +
+                "Las emisiones permanecen en el nivel actual.";
+
+        } else {
+
+            mensaje.innerHTML =
+                "Con una sustitución del <strong>" +
+                porcentajeRenovable +
+                "%</strong> del consumo eléctrico por energía renovable, " +
+                "se estiman <strong>" +
+                emisionesEvitadas.toFixed(2) +
+                " kg de CO₂ evitados al mes</strong>.";
+
+        }
+
+    }
+
+
+    // Calcular automáticamente al cargar la página
+    window.onload = function() {
+
+        actualizarPorcentaje();
+
+        calcular();
+
+    };
+
+</script>
+
+</body>
+</html>
+```
