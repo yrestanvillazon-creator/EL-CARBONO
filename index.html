@@ -1,1 +1,1690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>EL CARBONO | Huella, Contaminación y Descarbonización</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#06150f;
+color:#f2fff8;
+line-height:1.6;
+}
+
+nav{
+position:sticky;
+top:0;
+z-index:100;
+background:#03100b;
+padding:14px;
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+border-bottom:1px solid #214b38;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+padding:8px 14px;
+border-radius:20px;
+}
+
+nav a:hover{
+background:#17442f;
+color:#8fffc1;
+}
+
+.hero{
+text-align:center;
+padding:80px 20px;
+background:
+radial-gradient(circle at center,#174a32,#06150f 65%);
+}
+
+.hero h1{
+font-size:clamp(50px,10vw,100px);
+margin:20px 0;
+color:#67eca4;
+}
+
+.hero p{
+max-width:800px;
+margin:auto;
+font-size:20px;
+color:#bdd5c7;
+}
+
+.globo{
+width:180px;
+height:180px;
+margin:20px auto;
+border-radius:50%;
+background:
+radial-gradient(circle at 35% 30%,#d5ffe6,#54df98 25%,#11613e 60%,#031b11 80%);
+box-shadow:0 0 60px rgba(86,227,159,.4);
+animation:flotar 4s infinite ease-in-out;
+}
+
+@keyframes flotar{
+50%{
+transform:translateY(-12px);
+}
+}
+
+.boton{
+display:inline-block;
+border:none;
+padding:15px 22px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+margin-top:20px;
+}
+
+.boton-verde{
+background:#50e59a;
+color:#032014;
+}
+
+section{
+max-width:1100px;
+margin:auto;
+padding:70px 20px;
+}
+
+.titulo{
+text-align:center;
+margin-bottom:40px;
+}
+
+.titulo h2{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.titulo p{
+color:#b8d0c3;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:20px;
+}
+
+.card{
+background:#0d2c20;
+border:1px solid #1d4d39;
+border-radius:20px;
+padding:25px;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#4ee69a;
+}
+
+.icono{
+font-size:45px;
+}
+
+.card p{
+color:#b8d0c3;
+}
+
+.escena{
+height:300px;
+background:linear-gradient(#719589 0 60%,#172c23 60%);
+border-radius:25px;
+position:relative;
+overflow:hidden;
+}
+
+.ciudad{
+position:absolute;
+bottom:40%;
+left:0;
+width:100%;
+height:90px;
+background:
+repeating-linear-gradient(
+90deg,
+#17231e 0 55px,
+#2a4036 55px 90px
+);
+}
+
+.fabrica{
+position:absolute;
+left:15%;
+bottom:40%;
+width:120px;
+height:100px;
+background:#3a4c43;
+}
+
+.chimenea{
+position:absolute;
+right:10px;
+top:-70px;
+width:25px;
+height:75px;
+background:#273a32;
+}
+
+.humo{
+position:absolute;
+left:40%;
+top:20%;
+width:70px;
+height:70px;
+border-radius:50%;
+background:#4d5651;
+opacity:.55;
+animation:humo 5s infinite;
+}
+
+@keyframes humo{
+50%{
+transform:translate(30px,-20px);
+opacity:.2;
+}
+}
+
+.carro{
+position:absolute;
+bottom:30%;
+width:90px;
+height:28px;
+background:#c85c4b;
+border-radius:15px;
+animation:carro 7s linear infinite;
+}
+
+@keyframes carro{
+from{
+left:-100px;
+}
+to{
+left:110%;
+}
+}
+
+.carro2{
+background:#d7a83f;
+bottom:22%;
+animation-delay:3s;
+}
+
+.calculadora{
+background:#092319;
+border:1px solid #24543e;
+border-radius:25px;
+padding:30px;
+max-width:900px;
+margin:auto;
+}
+
+.control{
+margin:28px 0;
+}
+
+.control label{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin-bottom:10px;
+}
+
+.valor{
+color:#8fffc1;
+font-weight:bold;
+}
+
+input[type="range"]{
+width:100%;
+accent-color:#4ee69a;
+cursor:pointer;
+height:8px;
+}
+
+.resultados{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+margin-top:30px;
+}
+
+.resultado{
+background:#0d3021;
+border:1px solid #23543e;
+border-radius:18px;
+padding:20px;
+text-align:center;
+}
+
+.resultado strong{
+display:block;
+font-size:30px;
+color:#8fffc1;
+margin:8px;
+}
+
+.barra{
+height:18px;
+background:#17372a;
+border-radius:20px;
+overflow:hidden;
+margin:25px 0;
+}
+
+#barra{
+display:block;
+height:100%;
+width:0%;
+background:#4ee69a;
+transition:.3s;
+}
+
+#grafica{
+width:100%;
+max-width:100%;
+height:280px;
+background:#06150f;
+border-radius:15px;
+margin-top:20px;
+}
+
+.estado{
+text-align:center;
+color:#8fffc1;
+min-height:30px;
+margin-top:15px;
+}
+
+.transicion{
+height:280px;
+background:linear-gradient(#164333,#092017);
+border-radius:25px;
+position:relative;
+overflow:hidden;
+}
+
+.sol{
+position:absolute;
+right:10%;
+top:15%;
+width:70px;
+height:70px;
+border-radius:50%;
+background:#ffd66b;
+box-shadow:0 0 40px #ffd66b;
+}
+
+.fabrica2{
+position:absolute;
+left:10%;
+bottom:0;
+font-size:100px;
+transition:.4s;
+}
+
+.viento{
+position:absolute;
+right:25%;
+bottom:20%;
+font-size:70px;
+}
+
+.arboles{
+position:absolute;
+left:55%;
+bottom:0;
+font-size:70px;
+}
+
+.etiquetas{
+display:flex;
+justify-content:space-between;
+color:#b8d0c3;
+margin:10px 0;
+}
+
+footer{
+text-align:center;
+padding:50px 20px;
+border-top:1px solid #214b38;
+color:#b8d0c3;
+}
+
+#sonido{
+position:fixed;
+right:20px;
+bottom:20px;
+width:50px;
+height:50px;
+border-radius:50%;
+border:1px solid #285940;
+background:#0b291c;
+color:white;
+font-size:20px;
+cursor:pointer;
+}
+
+@media(max-width:600px){
+
+.titulo h2{
+font-size:32px;
+}
+
+.calculadora{
+padding:20px;
+}
+
+.control label{
+flex-direction:column;
+}
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<nav>
+
+<a href="#inicio">Inicio</a>
+
+<a href="#contaminacion">
+Contaminación
+</a>
+
+<a href="#calculadora">
+Calculadora
+</a>
+
+<a href="#descarbonizacion">
+Descarbonización
+</a>
+
+<a href="#energia">
+Renovables
+</a>
+
+</nav>
+
+
+<header class="hero" id="inicio">
+
+<div class="globo"></div>
+
+<h1>EL CARBONO</h1>
+
+<p>
+Huella de carbono, contaminación y descarbonización.
+Una experiencia educativa interactiva para comprender
+las emisiones y la transición hacia energías más limpias.
+</p>
+
+<a
+href="#calculadora"
+class="boton boton-verde">
+
+📊 CALCULAR EMISIONES
+
+</a>
+
+</header>
+
+
+<section id="contaminacion">
+
+<div class="titulo">
+
+<h2>🏭 Contaminación</h2>
+
+<p>
+Las actividades humanas pueden producir emisiones
+de gases de efecto invernadero mediante el transporte,
+la generación de electricidad y el uso de combustibles.
+</p>
+
+</div>
+
+
+<div class="escena">
+
+<div class="ciudad"></div>
+
+<div class="fabrica">
+
+<div class="chimenea"></div>
+
+</div>
+
+<div class="humo"></div>
+
+<div class="carro"></div>
+
+<div class="carro carro2"></div>
+
+</div>
+
+
+<div class="grid" style="margin-top:25px">
+
+
+<div class="card">
+
+<div class="icono">⚡</div>
+
+<h3>Electricidad</h3>
+
+<p>
+El impacto climático de la electricidad depende
+de la fuente utilizada para generarla.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🚗</div>
+
+<h3>Transporte</h3>
+
+<p>
+Los vehículos que utilizan combustibles fósiles
+generan emisiones durante su funcionamiento.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">⛽</div>
+
+<h3>Combustibles</h3>
+
+<p>
+La combustión de gasolina y otros combustibles
+produce emisiones de gases de efecto invernadero.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =================================================
+     CALCULADORA
+================================================= -->
+
+
+<section id="calculadora">
+
+<div class="titulo">
+
+<h2>📊 Calculadora de emisiones</h2>
+
+<p>
+Mueve las barras y observa cómo cambian
+automáticamente las emisiones.
+</p>
+
+</div>
+
+
+<div class="calculadora">
+
+
+<div class="control">
+
+<label>
+
+<span>
+⚡ Electricidad
+</span>
+
+<span class="valor">
+
+<span id="elecValor">
+250
+</span>
+
+kWh/mes
+
+</span>
+
+</label>
+
+
+<input
+id="elec"
+type="range"
+min="0"
+max="2000"
+step="10"
+value="250"
+>
+
+
+</div>
+
+
+<div class="control">
+
+<label>
+
+<span>
+🚗 Transporte
+</span>
+
+<span class="valor">
+
+<span id="transValor">
+400
+</span>
+
+km/mes
+
+</span>
+
+</label>
+
+
+<input
+id="trans"
+type="range"
+min="0"
+max="5000"
+step="10"
+value="400"
+>
+
+
+</div>
+
+
+<div class="control">
+
+<label>
+
+<span>
+⛽ Combustible
+</span>
+
+<span class="valor">
+
+<span id="fuelValor">
+40
+</span>
+
+L/mes
+
+</span>
+
+</label>
+
+
+<input
+id="fuel"
+type="range"
+min="0"
+max="500"
+step="1"
+value="40"
+>
+
+
+</div>
+
+
+<div class="control">
+
+<label>
+
+<span>
+☀️ Electricidad renovable
+</span>
+
+<span class="valor">
+
+<span id="renValor">
+30
+</span>
+
+%
+
+</span>
+
+</label>
+
+
+<input
+id="ren"
+type="range"
+min="0"
+max="100"
+step="1"
+value="30"
+>
+
+
+</div>
+
+
+<div class="resultados">
+
+
+<div class="resultado">
+
+🔥 Emisiones actuales
+
+<strong id="actual">
+0
+</strong>
+
+kg CO₂e/mes
+
+</div>
+
+
+<div class="resultado">
+
+🌱 Emisiones evitables
+
+<strong id="evitable">
+0
+</strong>
+
+kg CO₂e/mes
+
+</div>
+
+
+<div class="resultado">
+
+🌎 Emisiones finales
+
+<strong id="final">
+0
+</strong>
+
+kg CO₂e/mes
+
+</div>
+
+
+</div>
+
+
+<div class="barra">
+
+<span id="barra"></span>
+
+</div>
+
+
+<canvas
+id="grafica"
+width="900"
+height="280">
+</canvas>
+
+
+<div style="text-align:center">
+
+
+<button
+type="button"
+id="guardar"
+class="boton boton-verde">
+
+📊 GUARDAR ESCENARIO EN GOOGLE SHEETS
+
+</button>
+
+
+<p
+id="saveStatus"
+class="estado">
+</p>
+
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =================================================
+     DESCARBONIZACIÓN
+================================================= -->
+
+
+<section id="descarbonizacion">
+
+<div class="titulo">
+
+<h2>🔄 Descarbonización</h2>
+
+<p>
+Mueve la barra para representar una transición
+desde una mayor dependencia fósil hacia una
+mayor descarbonización.
+</p>
+
+</div>
+
+
+<div class="transicion">
+
+<div class="sol"></div>
+
+<div
+class="fabrica2"
+id="fabrica">
+
+🏭
+
+</div>
+
+<div class="viento">
+
+🌬️
+
+</div>
+
+<div class="arboles">
+
+🌳 🌲 🌳
+
+</div>
+
+</div>
+
+
+<div class="etiquetas">
+
+<span>
+🏭 Fósiles
+</span>
+
+<span>
+☀️ Renovables
+</span>
+
+</div>
+
+
+<input
+id="transicion"
+type="range"
+min="0"
+max="100"
+value="0"
+style="width:100%;accent-color:#4ee69a"
+>
+
+
+</section>
+
+
+<!-- =================================================
+     ENERGÍAS RENOVABLES
+================================================= -->
+
+
+<section id="energia">
+
+<div class="titulo">
+
+<h2>⚡ Energías renovables</h2>
+
+<p>
+Fuentes de energía que aprovechan recursos naturales
+que se regeneran continuamente.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="icono">☀️</div>
+
+<h3>Solar</h3>
+
+<p>
+Utiliza la radiación del Sol para producir electricidad
+o calor.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🌬️</div>
+
+<h3>Eólica</h3>
+
+<p>
+Aprovecha la energía del viento mediante
+aerogeneradores.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">💧</div>
+
+<h3>Hidroeléctrica</h3>
+
+<p>
+Utiliza el movimiento del agua para generar
+electricidad.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🌋</div>
+
+<h3>Geotérmica</h3>
+
+<p>
+Aprovecha el calor interno de la Tierra.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🌊</div>
+
+<h3>Energía marina</h3>
+
+<p>
+Aprovecha el movimiento de las olas y las mareas.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🌱</div>
+
+<h3>Biomasa</h3>
+
+<p>
+Utiliza materia orgánica como fuente energética.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="titulo">
+
+<h2>🌱 Acciones para descarbonizar</h2>
+
+<p>
+La transición energética puede combinar eficiencia,
+energías renovables y cambios en la movilidad.
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="icono">💡</div>
+
+<h3>Eficiencia energética</h3>
+
+<p>
+Reducir el consumo innecesario puede disminuir
+la demanda de energía.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">☀️</div>
+
+<h3>Energías renovables</h3>
+
+<p>
+La generación renovable puede sustituir parte
+de la generación basada en combustibles fósiles.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🚌</div>
+
+<h3>Movilidad sostenible</h3>
+
+<p>
+Caminar, bicicleta, transporte público y
+electrificación pueden reducir el uso de combustibles.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icono">🌳</div>
+
+<h3>Protección ambiental</h3>
+
+<p>
+Los ecosistemas cumplen funciones importantes
+dentro del ciclo del carbono.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<footer>
+
+<h3>🌱 EL CARBONO</h3>
+
+<p>
+Proyecto educativo sobre huella de carbono
+y descarbonización.
+</p>
+
+<p>
+Los factores utilizados en la calculadora son
+simplificados y tienen fines educativos.
+</p>
+
+</footer>
+
+
+<button id="sonido">
+🔊
+</button>
+
+
+<!-- =================================================
+     JAVASCRIPT
+================================================= -->
+
+<script>
+
+"use strict";
+
+
+/* ==============================================
+   URL DE GOOGLE APPS SCRIPT
+============================================== */
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbx_1R7l5wQt5aZbQyz88-Z_Mh2XEgWj55fVLoyKVCjSBVZV_unE3nE15NoZ7zst5J-a/exec";
+
+
+/* ==============================================
+   ELEMENTOS
+============================================== */
+
+const elec =
+document.getElementById("elec");
+
+const trans =
+document.getElementById("trans");
+
+const fuel =
+document.getElementById("fuel");
+
+const ren =
+document.getElementById("ren");
+
+
+/* ==============================================
+   FUNCIÓN PRINCIPAL
+============================================== */
+
+function calcular(){
+
+const electricidad =
+Number(elec.value);
+
+const transporte =
+Number(trans.value);
+
+const combustible =
+Number(fuel.value);
+
+const renovables =
+Number(ren.value);
+
+
+/* Factores educativos */
+
+const emisionesActuales =
+(electricidad * 0.40) +
+(transporte * 0.21) +
+(combustible * 2.31);
+
+
+const emisionesEvitables =
+electricidad *
+0.40 *
+(renovables / 100);
+
+
+const emisionesFinales =
+Math.max(
+0,
+emisionesActuales -
+emisionesEvitables
+);
+
+
+/* Mostrar valores de las barras */
+
+document.getElementById(
+"elecValor"
+).textContent =
+electricidad;
+
+
+document.getElementById(
+"transValor"
+).textContent =
+transporte;
+
+
+document.getElementById(
+"fuelValor"
+).textContent =
+combustible;
+
+
+document.getElementById(
+"renValor"
+).textContent =
+renovables;
+
+
+/* Mostrar resultados */
+
+document.getElementById(
+"actual"
+).textContent =
+emisionesActuales.toFixed(1);
+
+
+document.getElementById(
+"evitable"
+).textContent =
+emisionesEvitables.toFixed(1);
+
+
+document.getElementById(
+"final"
+).textContent =
+emisionesFinales.toFixed(1);
+
+
+/* Barra de reducción */
+
+let reduccion = 0;
+
+if(emisionesActuales > 0){
+
+reduccion =
+(emisionesEvitables /
+emisionesActuales) *
+100;
+
+}
+
+document.getElementById(
+"barra"
+).style.width =
+Math.min(100,reduccion) + "%";
+
+
+/* Dibujar gráfica */
+
+dibujarGrafica(
+emisionesActuales,
+emisionesEvitables,
+emisionesFinales
+);
+
+}
+
+
+/* ==============================================
+   EVENTOS DE LAS BARRAS
+============================================== */
+
+elec.addEventListener(
+"input",
+calcular
+);
+
+trans.addEventListener(
+"input",
+calcular
+);
+
+fuel.addEventListener(
+"input",
+calcular
+);
+
+ren.addEventListener(
+"input",
+calcular
+);
+
+
+/* ==============================================
+   GRÁFICA
+============================================== */
+
+function dibujarGrafica(
+actual,
+evitable,
+final
+){
+
+const canvas =
+document.getElementById("grafica");
+
+const ctx =
+canvas.getContext("2d");
+
+
+const ancho =
+canvas.width;
+
+const alto =
+canvas.height;
+
+
+ctx.clearRect(
+0,
+0,
+ancho,
+alto
+);
+
+
+/* Fondo */
+
+ctx.fillStyle =
+"#06150f";
+
+ctx.fillRect(
+0,
+0,
+ancho,
+alto
+);
+
+
+const valores = [
+actual,
+evitable,
+final
+];
+
+
+const nombres = [
+"Actuales",
+"Evitables",
+"Finales"
+];
+
+
+const maximo =
+Math.max(
+...valores,
+1
+);
+
+
+const base =
+alto - 50;
+
+
+const anchoBarra =
+120;
+
+
+const espacio =
+80;
+
+
+const inicio =
+(
+ancho -
+(
+3 * anchoBarra +
+2 * espacio
+)
+) / 2;
+
+
+for(
+let i=0;
+i<3;
+i++
+){
+
+const valor =
+valores[i];
+
+
+const altura =
+(valor / maximo) * 170;
+
+
+const x =
+inicio +
+i *
+(
+anchoBarra +
+espacio
+);
+
+
+const y =
+base -
+altura;
+
+
+ctx.fillStyle =
+i === 1
+?
+"#4ee69a"
+:
+"#286f50";
+
+
+ctx.fillRect(
+x,
+y,
+anchoBarra,
+altura
+);
+
+
+ctx.textAlign =
+"center";
+
+
+ctx.font =
+"bold 16px Arial";
+
+
+ctx.fillStyle =
+"#ffffff";
+
+
+ctx.fillText(
+valor.toFixed(1),
+x + anchoBarra / 2,
+y - 10
+);
+
+
+ctx.font =
+"15px Arial";
+
+
+ctx.fillStyle =
+"#b8d0c3";
+
+
+ctx.fillText(
+nombres[i],
+x + anchoBarra / 2,
+base + 25
+);
+
+}
+
+}
+
+
+/* ==============================================
+   TRANSICIÓN
+============================================== */
+
+document
+.getElementById("transicion")
+.addEventListener(
+"input",
+function(){
+
+const valor =
+Number(this.value);
+
+
+const fabrica =
+document.getElementById(
+"fabrica"
+);
+
+
+fabrica.style.opacity =
+1 - valor / 100;
+
+
+fabrica.style.transform =
+"translateX(" +
+(valor * 0.4) +
+"px)";
+
+}
+);
+
+
+/* ==============================================
+   GOOGLE SHEETS
+============================================== */
+
+document
+.getElementById("guardar")
+.addEventListener(
+"click",
+guardarEscenario
+);
+
+
+function guardarEscenario(){
+
+const status =
+document.getElementById(
+"saveStatus"
+);
+
+
+const electricidad =
+Number(elec.value);
+
+const transporte =
+Number(trans.value);
+
+const combustible =
+Number(fuel.value);
+
+const renovables =
+Number(ren.value);
+
+
+const emisionesActuales =
+(electricidad * 0.40) +
+(transporte * 0.21) +
+(combustible * 2.31);
+
+
+const emisionesEvitables =
+electricidad *
+0.40 *
+(renovables / 100);
+
+
+const emisionesFinales =
+Math.max(
+0,
+emisionesActuales -
+emisionesEvitables
+);
+
+
+status.textContent =
+"⏳ Enviando datos...";
+
+
+/* Crear formulario invisible */
+
+const formulario =
+document.createElement("form");
+
+
+formulario.method =
+"POST";
+
+
+formulario.action =
+SCRIPT_URL;
+
+
+/*
+El formulario se abre en un iframe
+invisible para evitar problemas de CORS.
+*/
+
+formulario.target =
+"googleSheetsFrame";
+
+
+formulario.style.display =
+"none";
+
+
+const datos = {
+
+fecha:
+new Date().toLocaleString("es-CO"),
+
+electricidad:
+electricidad,
+
+transporte:
+transporte,
+
+combustible:
+combustible,
+
+renovables:
+renovables,
+
+emisionesActuales:
+emisionesActuales.toFixed(2),
+
+emisionesEvitables:
+emisionesEvitables.toFixed(2),
+
+emisionesFinales:
+emisionesFinales.toFixed(2)
+
+};
+
+
+for(
+const nombre in datos
+){
+
+const input =
+document.createElement("input");
+
+
+input.type =
+"hidden";
+
+
+input.name =
+nombre;
+
+
+input.value =
+datos[nombre];
+
+
+formulario.appendChild(
+input
+);
+
+}
+
+
+document.body.appendChild(
+formulario
+);
+
+
+/* Enviar */
+
+formulario.submit();
+
+
+status.textContent =
+"✅ Escenario enviado. Revisa Google Sheets y tu correo.";
+
+
+setTimeout(
+function(){
+
+formulario.remove();
+
+},
+2000
+);
+
+}
+
+
+/* ==============================================
+   IFRAME INVISIBLE
+============================================== */
+
+const iframe =
+document.createElement("iframe");
+
+
+iframe.name =
+"googleSheetsFrame";
+
+
+iframe.style.display =
+"none";
+
+
+document.body.appendChild(
+iframe
+);
+
+
+/* ==============================================
+   SONIDO
+============================================== */
+
+let sonidoActivo =
+false;
+
+
+let audio =
+null;
+
+
+document
+.getElementById("sonido")
+.addEventListener(
+"click",
+function(){
+
+sonidoActivo =
+!sonidoActivo;
+
+
+this.textContent =
+sonidoActivo
+?
+"🔊"
+:
+"🔇";
+
+
+if(
+sonidoActivo &&
+!audio
+){
+
+audio =
+new (
+window.AudioContext ||
+window.webkitAudioContext
+)();
+
+}
+
+}
+);
+
+
+/* ==============================================
+   INICIAR CALCULADORA
+============================================== */
+
+calcular();
+
+</script>
+
+
+</body>
+</html>
