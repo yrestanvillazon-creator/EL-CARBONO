@@ -4,26 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>EL CARBONO | Huella y Descarbonización</title>
+<title>EL CARBONO | Huella, Contaminación y Descarbonización</title>
 
 <style>
 
-:root{
---fondo:#04110b;
---fondo2:#092319;
---tarjeta:#0e3022;
---verde:#4ee69a;
---verde2:#9effc9;
---texto:#f2fff8;
---gris:#b8d4c5;
---rojo:#ff6675;
---amarillo:#ffd66b;
-}
-
 *{
 box-sizing:border-box;
-margin:0;
-padding:0;
 }
 
 html{
@@ -31,360 +17,232 @@ scroll-behavior:smooth;
 }
 
 body{
+margin:0;
 font-family:Arial,Helvetica,sans-serif;
-background:
-radial-gradient(circle at top,#15462f 0,#06150e 45%,#020906 100%);
-color:var(--texto);
-overflow-x:hidden;
+background:#06150f;
+color:#f2fff8;
 line-height:1.6;
-}
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-opacity:.12;
-background-image:
-radial-gradient(#aaffd2 1px,transparent 1px);
-background-size:30px 30px;
-animation:movimiento 20s linear infinite;
-}
-
-@keyframes movimiento{
-from{
-background-position:0 0;
-}
-to{
-background-position:30px 30px;
-}
 }
 
 nav{
 position:sticky;
 top:0;
 z-index:100;
+background:#03100b;
+padding:14px;
 display:flex;
 justify-content:center;
-gap:8px;
+gap:10px;
 flex-wrap:wrap;
-padding:12px;
-background:rgba(2,12,8,.92);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(158,255,201,.15);
+border-bottom:1px solid #214b38;
 }
 
 nav a{
 color:white;
 text-decoration:none;
 padding:8px 14px;
-border-radius:25px;
-transition:.3s;
-font-size:14px;
+border-radius:20px;
 }
 
 nav a:hover{
-background:#123e2b;
-color:var(--verde2);
-transform:translateY(-2px);
+background:#17442f;
+color:#8fffc1;
 }
 
 .hero{
-min-height:90vh;
-display:flex;
-align-items:center;
-justify-content:center;
 text-align:center;
-padding:60px 20px;
-position:relative;
-}
-
-.hero-content{
-max-width:1000px;
-}
-
-.badge{
-display:inline-block;
-padding:8px 16px;
-border:1px solid rgba(158,255,201,.2);
-border-radius:30px;
-color:var(--verde2);
-background:rgba(78,230,154,.08);
+padding:80px 20px;
+background:
+radial-gradient(circle at center,#174a32,#06150f 65%);
 }
 
 .hero h1{
-font-size:clamp(48px,10vw,105px);
-letter-spacing:-5px;
-margin:15px 0;
-background:linear-gradient(
-90deg,
-white,
-var(--verde2),
-var(--verde)
-);
--webkit-background-clip:text;
-color:transparent;
+font-size:clamp(50px,10vw,100px);
+margin:20px 0;
+color:#67eca4;
 }
 
 .hero p{
 max-width:800px;
 margin:auto;
-font-size:clamp(17px,2.5vw,24px);
-color:var(--gris);
+font-size:20px;
+color:#bdd5c7;
 }
 
 .globo{
-width:190px;
-height:190px;
+width:180px;
+height:180px;
+margin:20px auto;
 border-radius:50%;
-margin:35px auto;
-
 background:
-radial-gradient(
-circle at 35% 30%,
-#d7ffe8 0 8%,
-#65eaa8 20%,
-#20784f 52%,
-#061f15 75%
-);
-
-box-shadow:
-0 0 70px rgba(78,230,154,.35),
-inset -25px -25px 45px rgba(0,0,0,.45);
-
-animation:flotar 4s ease-in-out infinite;
+radial-gradient(circle at 35% 30%,#d5ffe6,#54df98 25%,#11613e 60%,#031b11 80%);
+box-shadow:0 0 60px rgba(86,227,159,.4);
+animation:flotar 4s infinite ease-in-out;
 }
 
 @keyframes flotar{
 50%{
-transform:translateY(-15px) rotate(3deg);
+transform:translateY(-12px);
 }
 }
 
 .boton{
 display:inline-block;
-margin-top:30px;
-padding:15px 24px;
-border-radius:30px;
 border:none;
-cursor:pointer;
+padding:15px 22px;
+border-radius:30px;
 font-weight:bold;
-font-size:16px;
-transition:.3s;
-}
-
-.boton:hover{
-transform:translateY(-4px);
-filter:brightness(1.1);
+cursor:pointer;
+margin-top:20px;
 }
 
 .boton-verde{
-background:linear-gradient(135deg,var(--verde),#27b878);
+background:#50e59a;
 color:#032014;
 }
 
-.boton-secundario{
-background:transparent;
-border:1px solid rgba(158,255,201,.25);
-color:white;
-}
-
 section{
-max-width:1150px;
+max-width:1100px;
 margin:auto;
-padding:80px 20px;
+padding:70px 20px;
 }
 
 .titulo{
 text-align:center;
-max-width:800px;
-margin:0 auto 45px;
+margin-bottom:40px;
 }
 
 .titulo h2{
-font-size:clamp(32px,5vw,55px);
-margin-bottom:12px;
+font-size:42px;
+margin-bottom:10px;
 }
 
 .titulo p{
-color:var(--gris);
+color:#b8d0c3;
 }
 
 .grid{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(230px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 gap:20px;
 }
 
 .card{
-background:
-linear-gradient(
-145deg,
-rgba(18,61,45,.95),
-rgba(7,28,20,.95)
-);
-
-border:1px solid rgba(158,255,201,.14);
-border-radius:22px;
+background:#0d2c20;
+border:1px solid #1d4d39;
+border-radius:20px;
 padding:25px;
 transition:.3s;
-box-shadow:0 15px 45px rgba(0,0,0,.18);
 }
 
 .card:hover{
-transform:translateY(-7px);
-border-color:rgba(78,230,154,.5);
+transform:translateY(-5px);
+border-color:#4ee69a;
 }
 
 .icono{
 font-size:45px;
 }
 
-.card h3{
-margin:10px 0;
-}
-
 .card p{
-color:var(--gris);
+color:#b8d0c3;
 }
 
 .escena{
-height:310px;
-border-radius:28px;
-overflow:hidden;
+height:300px;
+background:linear-gradient(#719589 0 60%,#172c23 60%);
+border-radius:25px;
 position:relative;
-background:
-linear-gradient(
-#6e9287 0 58%,
-#152b22 58%
-);
-border:1px solid rgba(158,255,201,.15);
+overflow:hidden;
 }
 
 .ciudad{
 position:absolute;
-bottom:30%;
+bottom:40%;
 left:0;
-right:0;
-height:100px;
-
+width:100%;
+height:90px;
 background:
 repeating-linear-gradient(
 90deg,
-#17251f 0 50px,
-#294036 50px 85px
+#17231e 0 55px,
+#2a4036 55px 90px
 );
 }
 
 .fabrica{
 position:absolute;
-left:14%;
-bottom:30%;
+left:15%;
+bottom:40%;
 width:120px;
-height:105px;
-background:#354a41;
+height:100px;
+background:#3a4c43;
 }
 
 .chimenea{
 position:absolute;
 right:10px;
-top:-75px;
-width:27px;
-height:80px;
-background:#263a32;
-}
-
-.humo,
-.humo::before,
-.humo::after{
-position:absolute;
-width:75px;
+top:-70px;
+width:25px;
 height:75px;
-border-radius:50%;
-background:rgba(40,48,45,.58);
+background:#273a32;
 }
 
 .humo{
+position:absolute;
 left:40%;
-top:22%;
+top:20%;
+width:70px;
+height:70px;
+border-radius:50%;
+background:#4d5651;
+opacity:.55;
 animation:humo 5s infinite;
-}
-
-.humo::before{
-content:"";
-left:-45px;
-top:35px;
-}
-
-.humo::after{
-content:"";
-left:45px;
-top:-20px;
 }
 
 @keyframes humo{
 50%{
-transform:translate(20px,-25px);
+transform:translate(30px,-20px);
 opacity:.2;
 }
 }
 
 .carro{
 position:absolute;
-bottom:23%;
-width:95px;
+bottom:30%;
+width:90px;
 height:28px;
-background:#bd5c48;
-border-radius:15px 15px 5px 5px;
+background:#c85c4b;
+border-radius:15px;
 animation:carro 7s linear infinite;
-}
-
-.carro::before,
-.carro::after{
-content:"";
-position:absolute;
-bottom:-9px;
-width:18px;
-height:18px;
-border-radius:50%;
-background:#111;
-}
-
-.carro::before{
-left:12px;
-}
-
-.carro::after{
-right:12px;
-}
-
-.carro2{
-background:#d7a83f;
-bottom:16%;
-animation-delay:3s;
 }
 
 @keyframes carro{
 from{
-left:-120px;
+left:-100px;
 }
 to{
 left:110%;
 }
 }
 
+.carro2{
+background:#d7a83f;
+bottom:22%;
+animation-delay:3s;
+}
+
 .calculadora{
+background:#092319;
+border:1px solid #24543e;
+border-radius:25px;
+padding:30px;
 max-width:900px;
 margin:auto;
-padding:30px;
-border-radius:28px;
-background:rgba(7,28,20,.96);
-border:1px solid rgba(158,255,201,.16);
 }
 
 .control{
-margin:25px 0;
+margin:28px 0;
 }
 
 .control label{
@@ -395,112 +253,101 @@ margin-bottom:10px;
 }
 
 .valor{
-color:var(--verde2);
+color:#8fffc1;
 font-weight:bold;
 }
 
-input[type=range]{
+input[type="range"]{
 width:100%;
-accent-color:var(--verde);
+accent-color:#4ee69a;
 cursor:pointer;
+height:8px;
 }
 
 .resultados{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
-margin-top:25px;
+margin-top:30px;
 }
 
 .resultado{
-background:#0c2b1e;
-border:1px solid rgba(158,255,201,.14);
-padding:20px;
+background:#0d3021;
+border:1px solid #23543e;
 border-radius:18px;
+padding:20px;
 text-align:center;
 }
 
 .resultado strong{
 display:block;
-font-size:28px;
-color:var(--verde2);
-margin:7px 0;
+font-size:30px;
+color:#8fffc1;
+margin:8px;
 }
 
 .barra{
 height:18px;
-background:#173128;
-border-radius:30px;
+background:#17372a;
+border-radius:20px;
 overflow:hidden;
 margin:25px 0;
 }
 
-.barra span{
+#barra{
 display:block;
 height:100%;
-width:0;
-background:
-linear-gradient(
-90deg,
-var(--verde),
-#dfff70
-);
-transition:.4s;
+width:0%;
+background:#4ee69a;
+transition:.3s;
 }
 
-canvas{
+#grafica{
 width:100%;
-height:270px;
-background:#071b12;
-border-radius:18px;
-border:1px solid rgba(158,255,201,.13);
+max-width:100%;
+height:280px;
+background:#06150f;
+border-radius:15px;
+margin-top:20px;
 }
 
 .estado{
 text-align:center;
-color:var(--verde2);
-min-height:25px;
+color:#8fffc1;
+min-height:30px;
 margin-top:15px;
 }
 
 .transicion{
-height:290px;
+height:280px;
+background:linear-gradient(#164333,#092017);
 border-radius:25px;
-overflow:hidden;
 position:relative;
-
-background:
-linear-gradient(
-#164234,
-#092016
-);
-
-border:1px solid rgba(158,255,201,.15);
+overflow:hidden;
 }
 
 .sol{
 position:absolute;
 right:10%;
-top:12%;
+top:15%;
 width:70px;
 height:70px;
 border-radius:50%;
-background:var(--amarillo);
-box-shadow:0 0 45px var(--amarillo);
+background:#ffd66b;
+box-shadow:0 0 40px #ffd66b;
 }
 
 .fabrica2{
 position:absolute;
 left:10%;
 bottom:0;
-font-size:105px;
-transition:.5s;
+font-size:100px;
+transition:.4s;
 }
 
 .viento{
 position:absolute;
-right:22%;
+right:25%;
 bottom:20%;
 font-size:70px;
 }
@@ -509,1186 +356,87 @@ font-size:70px;
 position:absolute;
 left:55%;
 bottom:0;
-font-size:75px;
+font-size:70px;
 }
 
 .etiquetas{
 display:flex;
 justify-content:space-between;
+color:#b8d0c3;
 margin:10px 0;
-color:var(--gris);
 }
 
 footer{
 text-align:center;
-padding:55px 20px;
-border-top:1px solid rgba(158,255,201,.12);
-color:var(--gris);
+padding:50px 20px;
+border-top:1px solid #214b38;
+color:#b8d0c3;
 }
 
 #sonido{
 position:fixed;
-right:18px;
-bottom:18px;
-z-index:200;
-width:52px;
-height:52px;
+right:20px;
+bottom:20px;
+width:50px;
+height:50px;
 border-radius:50%;
-border:1px solid rgba(158,255,201,.2);
-background:#0b271c;
+border:1px solid #285940;
+background:#0b291c;
 color:white;
-cursor:pointer;
 font-size:20px;
+cursor:pointer;
 }
 
 @media(max-width:600px){
 
-nav a{
-font-size:12px;
-padding:7px 9px;
-}
-
-.hero{
-min-height:80vh;
-}
-
-.globo{
-width:150px;
-height:150px;
+.titulo h2{
+font-size:32px;
 }
 
 .calculadora{
 padding:20px;
 }
 
-.escena{
-height:250px;
+.control label{
+flex-direction:column;
 }
 
 }
 </style>
 </head>
 
+
 <body>
+
 
 <nav>
 
 <a href="#inicio">Inicio</a>
-<a href="#contaminacion">Contaminación</a>
-<a href="#calculadora">Calculadora</a>
-<a href="#descarbonizacion">Descarbonización</a>
-<a href="#energia">Renovables</a>
+
+<a href="#contaminacion">
+Contaminación
+</a>
+
+<a href="#calculadora">
+Calculadora
+</a>
+
+<a href="#descarbonizacion">
+Descarbonización
+</a>
+
+<a href="#energia">
+Renovables
+</a>
 
 </nav>
 
 
 <header class="hero" id="inicio">
 
-<div class="hero-content">
-
-<span class="badge">
-🌱 EDUCACIÓN AMBIENTAL INTERACTIVA
-</span>
-
 <div class="globo"></div>
 
 <h1>EL CARBONO</h1>
 
 <p>
-Comprende la huella de carbono, observa cómo las actividades
-humanas generan emisiones y descubre cómo la descarbonización
-puede ayudar a reducirlas.
-</p>
-
-<a
-href="#calculadora"
-class="boton boton-verde">
-
-CALCULAR MI ESCENARIO ↓
-
-</a>
-
-</div>
-
-</header>
-
-
-<section id="contaminacion">
-
-<div class="titulo">
-
-<h2>🏭 Contaminación</h2>
-
-<p>
-Las actividades humanas pueden generar gases de efecto
-invernadero mediante el uso de combustibles fósiles,
-transporte y consumo de energía.
-</p>
-
-</div>
-
-
-<div class="escena">
-
-<div class="ciudad"></div>
-
-<div class="fabrica">
-
-<div class="chimenea"></div>
-
-</div>
-
-<div class="humo"></div>
-
-<div class="carro"></div>
-
-<div class="carro carro2"></div>
-
-</div>
-
-
-<div class="grid" style="margin-top:25px">
-
-<div class="card">
-
-<div class="icono">⚡</div>
-
-<h3>Electricidad</h3>
-
-<p>
-El consumo eléctrico puede estar asociado a emisiones
-dependiendo de la fuente utilizada para producirla.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🚗</div>
-
-<h3>Transporte</h3>
-
-<p>
-Los vehículos que utilizan combustibles fósiles
-generan emisiones durante su funcionamiento.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">⛽</div>
-
-<h3>Combustibles</h3>
-
-<p>
-La combustión de gasolina, diésel y otros combustibles
-produce emisiones de gases de efecto invernadero.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="calculadora">
-
-<div class="titulo">
-
-<h2>📊 Calculadora de emisiones</h2>
-
-<p>
-Introduce valores mensuales aproximados y observa
-un escenario educativo de emisiones.
-</p>
-
-</div>
-
-
-<div class="calculadora">
-
-
-<div class="control">
-
-<label>
-
-⚡ Electricidad
-
-<span class="valor">
-<span id="electricidadValor">250</span>
-kWh/mes
-</span>
-
-</label>
-
-<input
-id="electricidad"
-type="range"
-min="0"
-max="2000"
-value="250"
-step="10">
-
-</div>
-
-
-<div class="control">
-
-<label>
-
-🚗 Transporte
-
-<span class="valor">
-<span id="transporteValor">400</span>
-km/mes
-</span>
-
-</label>
-
-<input
-id="transporte"
-type="range"
-min="0"
-max="5000"
-value="400"
-step="10">
-
-</div>
-
-
-<div class="control">
-
-<label>
-
-⛽ Combustible
-
-<span class="valor">
-<span id="combustibleValor">40</span>
-L/mes
-</span>
-
-</label>
-
-<input
-id="combustible"
-type="range"
-min="0"
-max="500"
-value="40"
-step="1">
-
-</div>
-
-
-<div class="control">
-
-<label>
-
-☀️ Renovables
-
-<span class="valor">
-<span id="renovablesValor">30</span>
-%
-</span>
-
-</label>
-
-<input
-id="renovables"
-type="range"
-min="0"
-max="100"
-value="30">
-
-</div>
-
-
-<div class="resultados">
-
-<div class="resultado">
-
-🔥 Emisiones actuales
-
-<strong id="actuales">
-0
-</strong>
-
-kg CO₂e/mes
-
-</div>
-
-
-<div class="resultado">
-
-🌱 Emisiones evitables
-
-<strong id="evitables">
-0
-</strong>
-
-kg CO₂e/mes
-
-</div>
-
-
-<div class="resultado">
-
-🌎 Emisiones finales
-
-<strong id="finales">
-0
-</strong>
-
-kg CO₂e/mes
-
-</div>
-
-</div>
-
-
-<div class="barra">
-
-<span id="barraReduccion"></span>
-
-</div>
-
-
-<canvas
-id="grafica"
-width="900"
-height="270">
-</canvas>
-
-
-<div style="text-align:center;margin-top:30px">
-
-<button
-class="boton boton-verde"
-onclick="guardarEscenario()">
-
-📊 GUARDAR ESCENARIO EN GOOGLE SHEETS
-
-</button>
-
-<p
-id="saveStatus"
-class="estado">
-
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section id="descarbonizacion">
-
-<div class="titulo">
-
-<h2>🔄 Descarbonización</h2>
-
-<p>
-Mueve el control para observar una representación
-visual de la transición energética.
-</p>
-
-</div>
-
-
-<div
-class="transicion"
-id="transicionEscena">
-
-<div class="sol"></div>
-
-<div
-class="fabrica2"
-id="fabricaVisual">
-
-🏭
-
-</div>
-
-<div class="viento">
-
-🌬️
-
-</div>
-
-<div class="arboles">
-
-🌳 🌲 🌳
-
-</div>
-
-</div>
-
-
-<div class="etiquetas">
-
-<span>
-🏭 Dependencia fósil
-</span>
-
-<span>
-☀️ Descarbonización
-</span>
-
-</div>
-
-
-<input
-type="range"
-min="0"
-max="100"
-value="0"
-id="controlTransicion"
-style="width:100%;accent-color:#4ee69a">
-
-</section>
-
-
-<section id="energia">
-
-<div class="titulo">
-
-<h2>⚡ Energías renovables</h2>
-
-<p>
-Las fuentes renovables aprovechan recursos naturales
-que se regeneran continuamente.
-</p>
-
-</div>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="icono">
-☀️
-</div>
-
-<h3>Solar</h3>
-
-<p>
-Utiliza la radiación del Sol para producir electricidad
-o calor.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🌬️
-</div>
-
-<h3>Eólica</h3>
-
-<p>
-Aprovecha la energía del viento mediante
-aerogeneradores.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-💧
-</div>
-
-<h3>Hidroeléctrica</h3>
-
-<p>
-Utiliza el movimiento del agua para generar electricidad.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🌋
-</div>
-
-<h3>Geotérmica</h3>
-
-<p>
-Aprovecha el calor interno de la Tierra.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🌊
-</div>
-
-<h3>Energía marina</h3>
-
-<p>
-Aprovecha el movimiento de las olas y las mareas.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🌱
-</div>
-
-<h3>Biomasa</h3>
-
-<p>
-Utiliza materia orgánica como fuente energética.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<section>
-
-<div class="titulo">
-
-<h2>🌱 Acciones para descarbonizar</h2>
-
-<p>
-La transición energética combina eficiencia,
-energías renovables y cambios en la movilidad.
-</p>
-
-</div>
-
-
-<div class="grid">
-
-
-<div class="card">
-
-<div class="icono">
-💡
-</div>
-
-<h3>Eficiencia energética</h3>
-
-<p>
-Reducir el consumo innecesario ayuda a disminuir
-la demanda energética.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-☀️
-</div>
-
-<h3>Energía limpia</h3>
-
-<p>
-La generación renovable puede sustituir parte
-de la electricidad de origen fósil.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🚌
-</div>
-
-<h3>Movilidad sostenible</h3>
-
-<p>
-Caminar, usar bicicleta, transporte público y
-electrificación pueden reducir el uso de combustibles.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">
-🌳
-</div>
-
-<h3>Protección de ecosistemas</h3>
-
-<p>
-Los ecosistemas cumplen funciones importantes
-dentro del ciclo natural del carbono.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<footer>
-
-<strong>
-EL CARBONO
-</strong>
-
-<p>
-Proyecto educativo sobre huella de carbono
-y descarbonización.
-</p>
-
-<p>
-Los factores utilizados en la calculadora son
-simplificados con fines educativos y no sustituyen
-factores oficiales de inventarios de gases de efecto invernadero.
-</p>
-
-</footer>
-
-
-<button
-id="sonido"
-title="Activar o desactivar sonido">
-
-🔊
-
-</button>
-
-
-<script>
-
-
-/* =====================================================
-   CONEXIÓN CON GOOGLE APPS SCRIPT
-   ===================================================== */
-
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx_1R7l5wQt5aZbQyz88-Z_Mh2XEgWj55fVLoyKVCjSBVZV_unE3nE15NoZ7zst5J-a/exec";
-
-
-/* =====================================================
-   ELEMENTOS DE LA CALCULADORA
-   ===================================================== */
-
-const electricidad =
-document.getElementById("electricidad");
-
-const transporte =
-document.getElementById("transporte");
-
-const combustible =
-document.getElementById("combustible");
-
-const renovables =
-document.getElementById("renovables");
-
-
-/* =====================================================
-   CÁLCULO
-   ===================================================== */
-
-function calcularEmisiones(){
-
-const e =
-Number(electricidad.value);
-
-const t =
-Number(transporte.value);
-
-const f =
-Number(combustible.value);
-
-const r =
-Number(renovables.value);
-
-
-/*
-Factores simplificados para uso educativo.
-*/
-
-const emisionesActuales =
-e * 0.40 +
-t * 0.21 +
-f * 2.31;
-
-
-const emisionesEvitables =
-e * 0.40 *
-(r / 100);
-
-
-const emisionesFinales =
-Math.max(
-0,
-emisionesActuales -
-emisionesEvitables
-);
-
-
-/* Mostrar valores */
-
-document.getElementById(
-"electricidadValor"
-).textContent=e;
-
-document.getElementById(
-"transporteValor"
-).textContent=t;
-
-document.getElementById(
-"combustibleValor"
-).textContent=f;
-
-document.getElementById(
-"renovablesValor"
-).textContent=r;
-
-
-document.getElementById(
-"actuales"
-).textContent=
-emisionesActuales.toFixed(1);
-
-
-document.getElementById(
-"evitables"
-).textContent=
-emisionesEvitables.toFixed(1);
-
-
-document.getElementById(
-"finales"
-).textContent=
-emisionesFinales.toFixed(1);
-
-
-/* Barra */
-
-let porcentaje=0;
-
-if(emisionesActuales>0){
-
-porcentaje=
-(emisionesEvitables /
-emisionesActuales) *
-100;
-
-}
-
-document.getElementById(
-"barraReduccion"
-).style.width=
-Math.min(100,porcentaje)+"%";
-
-
-dibujarGrafica(
-emisionesActuales,
-emisionesEvitables,
-emisionesFinales
-);
-
-}
-
-
-/* =====================================================
-   EVENTOS
-   ===================================================== */
-
-electricidad.addEventListener(
-"input",
-calcularEmisiones
-);
-
-transporte.addEventListener(
-"input",
-calcularEmisiones
-);
-
-combustible.addEventListener(
-"input",
-calcularEmisiones
-);
-
-renovables.addEventListener(
-"input",
-calcularEmisiones
-);
-
-
-/* =====================================================
-   GRÁFICA
-   ===================================================== */
-
-function dibujarGrafica(
-actual,
-evitable,
-final
-){
-
-const canvas =
-document.getElementById("grafica");
-
-const ctx =
-canvas.getContext("2d");
-
-
-const ancho =
-canvas.width;
-
-const alto =
-canvas.height;
-
-
-ctx.clearRect(
-0,
-0,
-ancho,
-alto
-);
-
-
-ctx.fillStyle="#071b12";
-
-ctx.fillRect(
-0,
-0,
-ancho,
-alto
-);
-
-
-const valores=[
-actual,
-evitable,
-final
-];
-
-
-const nombres=[
-"Actuales",
-"Evitables",
-"Finales"
-];
-
-
-const maximo=
-Math.max(...valores,1);
-
-
-const base=alto-45;
-
-const anchoBarra=130;
-
-const espacio=70;
-
-const inicio=
-(ancho -
-(
-3*anchoBarra+
-2*espacio
-)
-)/2;
-
-
-valores.forEach(
-(valor,i)=>{
-
-const altura=
-(valor/maximo)*165;
-
-const x=
-inicio+
-i*(anchoBarra+espacio);
-
-const y=
-base-altura;
-
-
-ctx.fillStyle=
-i===1 ?
-"#4ee69a" :
-"#267a55";
-
-
-ctx.fillRect(
-x,
-y,
-anchoBarra,
-altura
-);
-
-
-ctx.textAlign="center";
-
-ctx.font=
-"bold 16px Arial";
-
-ctx.fillStyle=
-"#ffffff";
-
-
-ctx.fillText(
-valor.toFixed(1),
-x+anchoBarra/2,
-y-10
-);
-
-
-ctx.font=
-"15px Arial";
-
-ctx.fillStyle=
-"#b8d4c5";
-
-
-ctx.fillText(
-nombres[i],
-x+anchoBarra/2,
-base+25
-);
-
-}
-
-);
-
-}
-
-
-/* =====================================================
-   TRANSICIÓN ENERGÉTICA
-   ===================================================== */
-
-const controlTransicion=
-document.getElementById(
-"controlTransicion"
-);
-
-
-controlTransicion.addEventListener(
-"input",
-function(){
-
-const valor=
-Number(this.value);
-
-
-const fabrica=
-document.getElementById(
-"fabricaVisual"
-);
-
-
-fabrica.style.opacity=
-1-(valor/100);
-
-
-fabrica.style.transform=
-"translateX("+
-(valor*.35)+
-"px) scale("+
-(1-valor/500)+
-")";
-
-}
-);
-
-
-/* =====================================================
-   GUARDAR EN GOOGLE SHEETS
-   ===================================================== */
-
-function guardarEscenario(){
-
-const status=
-document.getElementById(
-"saveStatus"
-);
-
-
-const e=
-Number(electricidad.value);
-
-const t=
-Number(transporte.value);
-
-const f=
-Number(combustible.value);
-
-const r=
-Number(renovables.value);
-
-
-const emisionesActuales=
-e*0.40+
-t*0.21+
-f*2.31;
-
-
-const emisionesEvitables=
-e*0.40*
-(r/100);
-
-
-const emisionesFinales=
-Math.max(
-0,
-emisionesActuales-
-emisionesEvitables
-);
-
-
-status.textContent=
-"⏳ Guardando escenario...";
-
-
-/*
-Creamos un formulario invisible.
-Esto permite enviar los datos a Apps Script
-sin problemas de CORS.
-*/
-
-const formulario=
-document.createElement(
-"form"
-);
-
-
-formulario.method="POST";
-
-formulario.action=
-SCRIPT_URL;
-
-formulario.target=
-"googleSheetsFrame";
-
-formulario.style.display=
-"none";
-
-
-const datos={
-
-fecha:
-new Date().toLocaleString("es-CO"),
-
-electricidad:e,
-
-transporte:t,
-
-combustible:f,
-
-renovables:r,
-
-emisionesActuales:
-emisionesActuales.toFixed(2),
-
-emisionesEvitables:
-emisionesEvitables.toFixed(2),
-
-emisionesFinales:
-emisionesFinales.toFixed(2)
-
-};
-
-
-Object.entries(datos).forEach(
-([nombre,valor])=>{
-
-const input=
-document.createElement(
-"input"
-);
-
-input.type="hidden";
-
-input.name=nombre;
-
-input.value=valor;
-
-formulario.appendChild(
-input
-);
-
-}
-);
-
-
-document.body.appendChild(
-formulario
-);
-
-
-try{
-
-formulario.submit();
-
-status.textContent=
-"✅ Escenario enviado correctamente. Revisa Google Sheets y tu correo.";
-
-}
-catch(error){
-
-console.error(error);
-
-status.textContent=
-"❌ No se pudo enviar el escenario.";
-
-}
-
-
-setTimeout(
-()=>{
-formulario.remove();
-},
-2000
-);
-
-}
-
-
-/* =====================================================
-   IFRAME INVISIBLE
-   ===================================================== */
-
-const iframe=
-document.createElement(
-"iframe"
-);
-
-iframe.name=
-"googleSheetsFrame";
-
-iframe.style.display=
-"none";
-
-document.body.appendChild(
-iframe
-);
-
-
-/* =================
+Hu
