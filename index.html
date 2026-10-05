@@ -3,1761 +3,566 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>EL CARBONO | Huella, Contaminación y Descarbonización</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#06150f;
-color:#f2fff8;
-line-height:1.6;
-}
-
-nav{
-position:sticky;
-top:0;
-z-index:100;
-background:#03100b;
-padding:14px;
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-border-bottom:1px solid #214b38;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-padding:8px 14px;
-border-radius:20px;
-}
-
-nav a:hover{
-background:#17442f;
-color:#8fffc1;
-}
-
-.hero{
-text-align:center;
-padding:80px 20px;
-background:
-radial-gradient(circle at center,#174a32,#06150f 65%);
-}
-
-.hero h1{
-font-size:clamp(50px,10vw,100px);
-margin:20px 0;
-color:#67eca4;
-}
-
-.hero p{
-max-width:800px;
-margin:auto;
-font-size:20px;
-color:#bdd5c7;
-}
-
-.globo{
-width:180px;
-height:180px;
-margin:20px auto;
-border-radius:50%;
-background:
-radial-gradient(circle at 35% 30%,#d5ffe6,#54df98 25%,#11613e 60%,#031b11 80%);
-box-shadow:0 0 60px rgba(86,227,159,.4);
-animation:flotar 4s infinite ease-in-out;
-}
-
-@keyframes flotar{
-50%{
-transform:translateY(-12px);
-}
-}
-
-.boton{
-display:inline-block;
-border:none;
-padding:15px 22px;
-border-radius:30px;
-font-weight:bold;
-cursor:pointer;
-margin-top:20px;
-}
-
-.boton-verde{
-background:#50e59a;
-color:#032014;
-}
-
-section{
-max-width:1100px;
-margin:auto;
-padding:70px 20px;
-}
-
-.titulo{
-text-align:center;
-margin-bottom:40px;
-}
-
-.titulo h2{
-font-size:42px;
-margin-bottom:10px;
-}
-
-.titulo p{
-color:#b8d0c3;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-}
-
-.card{
-background:#0d2c20;
-border:1px solid #1d4d39;
-border-radius:20px;
-padding:25px;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-border-color:#4ee69a;
-}
-
-.icono{
-font-size:45px;
-}
-
-.card p{
-color:#b8d0c3;
-}
-
-
-/* =========================================
-   ESCENA DE CONTAMINACIÓN
-========================================= */
-
-.escena{
-height:300px;
-background:linear-gradient(#719589 0 60%,#172c23 60%);
-border-radius:25px;
-position:relative;
-overflow:hidden;
-}
-
-
-/* Ciudad */
-
-.ciudad{
-position:absolute;
-bottom:40%;
-left:0;
-width:100%;
-height:90px;
-background:
-repeating-linear-gradient(
-90deg,
-#17231e 0 55px,
-#2a4036 55px 90px
-);
-}
-
-
-/* Fábrica */
-
-.fabrica{
-position:absolute;
-left:15%;
-bottom:40%;
-width:120px;
-height:100px;
-background:#3a4c43;
-z-index:4;
-}
-
-.chimenea{
-position:absolute;
-right:10px;
-top:-70px;
-width:25px;
-height:75px;
-background:#273a32;
-}
-
-
-/* Humo fábrica */
-
-.humo{
-position:absolute;
-left:calc(15% + 95px);
-top:17%;
-width:70px;
-height:70px;
-border-radius:50%;
-background:#4d5651;
-opacity:.55;
-animation:humo 5s infinite;
-z-index:5;
-}
-
-.humo::before,
-.humo::after{
-content:"";
-position:absolute;
-border-radius:50%;
-background:#4d5651;
-}
-
-.humo::before{
-width:55px;
-height:55px;
-left:-30px;
-top:20px;
-}
-
-.humo::after{
-width:45px;
-height:45px;
-left:45px;
-top:25px;
-}
-
-@keyframes humo{
-0%{
-transform:translate(0,0) scale(.8);
-opacity:.6;
-}
-
-50%{
-transform:translate(30px,-20px) scale(1.2);
-opacity:.35;
-}
-
-100%{
-transform:translate(60px,-45px) scale(1.5);
-opacity:0;
-}
-}
-
-
-/* =========================================
-   CARROS
-========================================= */
-
-.carro{
-position:absolute;
-bottom:30%;
-width:90px;
-height:40px;
-background:#c85c4b;
-border-radius:15px;
-animation:carro 7s linear infinite;
-z-index:10;
-}
-
-
-/* Parte superior del carro */
-
-.carro::before{
-content:"";
-position:absolute;
-width:45px;
-height:22px;
-background:inherit;
-left:20px;
-top:-15px;
-border-radius:18px 18px 3px 3px;
-}
-
-
-/* Ventanas */
-
-.carro::after{
-content:"";
-position:absolute;
-width:34px;
-height:13px;
-background:#8fc4bd;
-left:26px;
-top:-10px;
-border-radius:8px 8px 2px 2px;
-}
-
-
-/* Ruedas */
-
-.carro{
-box-shadow:
--4px 27px 0 -4px #111,
-56px 27px 0 -4px #111;
-}
-
-
-/* Humo del carro */
-
-.humo-carro{
-position:absolute;
-left:-12px;
-top:5px;
-width:15px;
-height:15px;
-border-radius:50%;
-background:#4d5651;
-opacity:.8;
-animation:salirHumoCarro 2s infinite ease-out;
-}
-
-.humo-carro2{
-left:-22px;
-top:0;
-width:12px;
-height:12px;
-animation-delay:.6s;
-}
-
-.humo-carro3{
-left:-30px;
-top:8px;
-width:9px;
-height:9px;
-animation-delay:1.2s;
-}
-
-@keyframes salirHumoCarro{
-
-0%{
-transform:translate(0,0) scale(.5);
-opacity:.8;
-}
-
-50%{
-opacity:.5;
-}
-
-100%{
-transform:translate(-25px,-35px) scale(1.8);
-opacity:0;
-}
-}
-
-
-@keyframes carro{
-from{
-left:-100px;
-}
-
-to{
-left:110%;
-}
-}
-
-
-.carro2{
-background:#d7a83f;
-bottom:22%;
-animation-delay:3s;
-}
-
-
-/* =========================================
-   CO₂ EN EL AIRE
-========================================= */
-
-.co2{
-position:absolute;
-font-weight:bold;
-font-size:15px;
-color:#e8fff3;
-background:rgba(40,55,48,.75);
-border:1px solid rgba(143,255,193,.4);
-padding:5px 10px;
-border-radius:20px;
-z-index:7;
-animation:co2Flota 5s infinite ease-in-out;
-}
-
-.co2-1{
-left:35%;
-top:20%;
-}
-
-.co2-2{
-left:58%;
-top:12%;
-animation-delay:1.5s;
-}
-
-.co2-3{
-left:78%;
-top:25%;
-animation-delay:3s;
-}
-
-@keyframes co2Flota{
-
-0%,100%{
-transform:translateY(0);
-opacity:.7;
-}
-
-50%{
-transform:translateY(-20px);
-opacity:1;
-}
-}
-
-
-/* =========================================
-   INDICADOR DE CONTAMINACIÓN
-========================================= */
-
-.indicador-contaminacion{
-position:absolute;
-right:20px;
-top:20px;
-background:rgba(3,16,11,.85);
-border:1px solid #39765a;
-border-radius:15px;
-padding:10px 14px;
-font-size:13px;
-z-index:20;
-}
-
-.punto-contaminacion{
-display:inline-block;
-width:10px;
-height:10px;
-border-radius:50%;
-background:#ff6b4a;
-box-shadow:0 0 10px #ff6b4a;
-margin-right:6px;
-}
-
-
-/* =========================================
-   CALCULADORA
-========================================= */
-
-.calculadora{
-background:#092319;
-border:1px solid #24543e;
-border-radius:25px;
-padding:30px;
-max-width:900px;
-margin:auto;
-}
-
-.control{
-margin:28px 0;
-}
-
-.control label{
-display:flex;
-justify-content:space-between;
-gap:10px;
-margin-bottom:10px;
-}
-
-.valor{
-color:#8fffc1;
-font-weight:bold;
-}
-
-input[type="range"]{
-width:100%;
-accent-color:#4ee69a;
-cursor:pointer;
-height:8px;
-}
-
-.resultados{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-margin-top:30px;
-}
-
-.resultado{
-background:#0d3021;
-border:1px solid #23543e;
-border-radius:18px;
-padding:20px;
-text-align:center;
-}
-
-.resultado strong{
-display:block;
-font-size:30px;
-color:#8fffc1;
-margin:8px;
-}
-
-.barra{
-height:18px;
-background:#17372a;
-border-radius:20px;
-overflow:hidden;
-margin:25px 0;
-}
-
-#barra{
-display:block;
-height:100%;
-width:0%;
-background:#4ee69a;
-transition:.3s;
-}
-
-#grafica{
-width:100%;
-max-width:100%;
-height:280px;
-background:#06150f;
-border-radius:15px;
-margin-top:20px;
-}
-
-.estado{
-text-align:center;
-color:#8fffc1;
-min-height:30px;
-margin-top:15px;
-}
-
-
-/* =========================================
-   DESCARBONIZACIÓN
-========================================= */
-
-.transicion{
-height:280px;
-background:linear-gradient(#164333,#092017);
-border-radius:25px;
-position:relative;
-overflow:hidden;
-}
-
-.sol{
-position:absolute;
-right:10%;
-top:15%;
-width:70px;
-height:70px;
-border-radius:50%;
-background:#ffd66b;
-box-shadow:0 0 40px #ffd66b;
-}
-
-.fabrica2{
-position:absolute;
-left:10%;
-bottom:0;
-font-size:100px;
-transition:.4s;
-z-index:5;
-}
-
-.viento{
-position:absolute;
-right:25%;
-bottom:20%;
-font-size:70px;
-}
-
-.arboles{
-position:absolute;
-left:55%;
-bottom:0;
-font-size:70px;
-}
-
-.etiquetas{
-display:flex;
-justify-content:space-between;
-color:#b8d0c3;
-margin:10px 0;
-}
-
-
-footer{
-text-align:center;
-padding:50px 20px;
-border-top:1px solid #214b38;
-color:#b8d0c3;
-}
-
-
-#sonido{
-position:fixed;
-right:20px;
-bottom:20px;
-width:50px;
-height:50px;
-border-radius:50%;
-border:1px solid #285940;
-background:#0b291c;
-color:white;
-font-size:20px;
-cursor:pointer;
-}
-
-
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#06150f;color:#f2fff8;line-height:1.6}
+nav{position:sticky;top:0;z-index:100;background:#03100b;padding:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid #214b38}
+nav a{color:white;text-decoration:none;padding:8px 14px;border-radius:20px}
+nav a:hover{background:#17442f;color:#8fffc1}
+.hero{text-align:center;padding:80px 20px;background:radial-gradient(circle at center,#174a32,#06150f 65%)}
+.hero h1{font-size:clamp(50px,10vw,100px);margin:20px 0;color:#67eca4}
+.hero p{max-width:800px;margin:auto;font-size:20px;color:#bdd5c7}
+.globo{width:180px;height:180px;margin:20px auto;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d5ffe6,#54df98 25%,#11613e 60%,#031b11 80%);box-shadow:0 0 60px rgba(86,227,159,.4);animation:flotar 4s infinite ease-in-out}
+@keyframes flotar{50%{transform:translateY(-12px)}}
+.boton{display:inline-block;border:none;padding:15px 22px;border-radius:30px;font-weight:bold;cursor:pointer;margin-top:20px}
+.boton-verde{background:#50e59a;color:#032014}
+section{max-width:1100px;margin:auto;padding:70px 20px}
+.titulo{text-align:center;margin-bottom:40px}
+.titulo h2{font-size:42px;margin-bottom:10px}
+.titulo p{color:#b8d0c3}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card{background:#0d2c20;border:1px solid #1d4d39;border-radius:20px;padding:25px;transition:.3s}
+.card:hover{transform:translateY(-5px);border-color:#4ee69a}
+.icono{font-size:45px}
+.card p{color:#b8d0c3}
+
+/* ===== ESCENA DE CONTAMINACIÓN ===== */
+.escena{height:300px;background:linear-gradient(#719589 0 60%,#172c23 60%);border-radius:25px;position:relative;overflow:hidden}
+.ciudad{position:absolute;bottom:40%;left:0;width:100%;height:90px;background:repeating-linear-gradient(90deg,#17231e 0 55px,#2a4036 55px 90px)}
+.fabrica{position:absolute;left:15%;bottom:40%;width:120px;height:100px;background:#3a4c43}
+.chimenea{position:absolute;right:10px;top:-70px;width:25px;height:75px;background:#273a32}
+.humo{position:absolute;left:40%;top:20%;width:70px;height:70px;border-radius:50%;background:#4d5651;opacity:.55;animation:humo 5s infinite}
+@keyframes humo{50%{transform:translate(30px,-20px);opacity:.2}}
+.carro{position:absolute;bottom:8%;width:130px;height:49px;z-index:3;animation:carro 7s linear infinite}
+.carro svg{width:100%;height:100%;display:block;overflow:visible;animation:rebote .32s ease-in-out infinite alternate}
+.rueda{transform-box:fill-box;transform-origin:center;animation:giro .45s linear infinite}
+@keyframes giro{to{transform:rotate(360deg)}}
+@keyframes rebote{to{transform:translateY(-1.2px)}}
+@keyframes carro{from{left:-140px}to{left:110%}}
+.carro2{bottom:20%;width:118px;height:45px;animation-delay:3s}
+
+/* Humo y neblina generados por JavaScript */
+.neblina{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1.2s;background:linear-gradient(rgba(122,98,52,.85),rgba(70,58,36,.55) 60%,rgba(40,34,22,.4))}
+.bocanada{position:absolute;z-index:2;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(70,72,70,.9),rgba(40,42,40,.55) 60%,rgba(40,42,40,0) 72%);animation:bocanada 3.2s ease-out forwards}
+.bocanada.fabrica-humo{width:30px;height:30px;margin:-15px 0 0 -15px;animation-duration:5s}
+@keyframes bocanada{
+from{transform:translate(0,0) scale(.6);opacity:.85}
+to{transform:translate(var(--dx,-30px),var(--dy,-70px)) scale(var(--s,3.4));opacity:0}}
+.mancha{position:absolute;z-index:1;bottom:5%;height:10px;border-radius:50%;pointer-events:none;background:rgba(20,20,18,.35);filter:blur(4px);animation:mancha 9s ease-out forwards}
+@keyframes mancha{from{opacity:.8}to{opacity:0}}
+
+.medidor{background:#092319;border:1px solid #24543e;border-radius:20px;padding:20px 25px;margin-top:20px}
+.medidor-datos{display:flex;flex-wrap:wrap;justify-content:space-between;gap:15px;align-items:center}
+.medidor-datos div{text-align:center;flex:1;min-width:140px}
+.medidor-datos strong{display:block;font-size:28px;color:#8fffc1}
+.medidor-datos span{color:#b8d0c3;font-size:14px}
+.nivel{height:16px;background:#17372a;border-radius:20px;overflow:hidden;margin:18px 0 8px}
+#nivelBarra{display:block;height:100%;width:0%;background:#4ee69a;transition:width .4s,background .4s}
+.medidor small{display:block;color:#9bb8a8;text-align:center}
+.boton-limpiar{background:transparent;color:#8fffc1;border:1px solid #4ee69a;margin-top:12px;padding:10px 18px}
+
+/* ===== CALCULADORA ===== */
+.calculadora{background:#092319;border:1px solid #24543e;border-radius:25px;padding:30px;max-width:900px;margin:auto}
+.control{margin:28px 0}
+.control label{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px}
+.valor{color:#8fffc1;font-weight:bold}
+input[type="range"]{width:100%;accent-color:#4ee69a;cursor:pointer;height:8px}
+.resultados{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-top:30px}
+.resultado{background:#0d3021;border:1px solid #23543e;border-radius:18px;padding:20px;text-align:center}
+.resultado strong{display:block;font-size:30px;color:#8fffc1;margin:8px}
+.barra{height:18px;background:#17372a;border-radius:20px;overflow:hidden;margin:25px 0}
+#barra{display:block;height:100%;width:0%;background:#4ee69a;transition:.3s}
+#grafica{width:100%;max-width:100%;height:280px;background:#06150f;border-radius:15px;margin-top:20px}
+.estado{text-align:center;color:#8fffc1;min-height:30px;margin-top:15px}
+
+/* ===== TRANSICIÓN ===== */
+.transicion{height:280px;background:linear-gradient(#164333,#092017);border-radius:25px;position:relative;overflow:hidden}
+.sol{position:absolute;right:10%;top:15%;width:70px;height:70px;border-radius:50%;background:#ffd66b;box-shadow:0 0 40px #ffd66b}
+.fabrica2{position:absolute;left:10%;bottom:0;font-size:100px;transition:.4s}
+.viento{position:absolute;right:25%;bottom:20%;font-size:70px}
+.arboles{position:absolute;left:55%;bottom:0;font-size:70px}
+.etiquetas{display:flex;justify-content:space-between;color:#b8d0c3;margin:10px 0}
+footer{text-align:center;padding:50px 20px;border-top:1px solid #214b38;color:#b8d0c3}
+#sonido{position:fixed;right:20px;bottom:20px;width:50px;height:50px;border-radius:50%;border:1px solid #285940;background:#0b291c;color:white;font-size:20px;cursor:pointer}
 @media(max-width:600px){
-
-.titulo h2{
-font-size:32px;
+.titulo h2{font-size:32px}
+.calculadora{padding:20px}
+.control label{flex-direction:column}
 }
-
-.calculadora{
-padding:20px;
-}
-
-.control label{
-flex-direction:column;
-}
-
-.escena{
-height:300px;
-}
-
-.fabrica{
-left:10%;
-transform:scale(.85);
-transform-origin:bottom left;
-}
-
-.indicador-contaminacion{
-right:10px;
-top:10px;
-font-size:11px;
-}
-
-.carro{
-transform:scale(.85);
-}
-
+@media(prefers-reduced-motion:reduce){
+.bocanada,.mancha{animation-duration:.01s}
+.rueda,.carro svg{animation:none}
 }
 </style>
 </head>
-
-
 <body>
 
-
 <nav>
-
 <a href="#inicio">Inicio</a>
-
-<a href="#contaminacion">
-Contaminación
-</a>
-
-<a href="#calculadora">
-Calculadora
-</a>
-
-<a href="#descarbonizacion">
-Descarbonización
-</a>
-
-<a href="#energia">
-Renovables
-</a>
-
+<a href="#contaminacion">Contaminación</a>
+<a href="#calculadora">Calculadora</a>
+<a href="#descarbonizacion">Descarbonización</a>
+<a href="#energia">Renovables</a>
 </nav>
 
-
 <header class="hero" id="inicio">
-
 <div class="globo"></div>
-
 <h1>EL CARBONO</h1>
-
-<p>
-Huella de carbono, contaminación y descarbonización.
-Una experiencia educativa interactiva para comprender
-las emisiones y la transición hacia energías más limpias.
-</p>
-
-<a
-href="#calculadora"
-class="boton boton-verde">
-
-📊 CALCULAR EMISIONES
-
-</a>
-
+<p>Huella de carbono, contaminación y descarbonización. Una experiencia educativa interactiva para comprender las emisiones y la transición hacia energías más limpias.</p>
+<a href="#calculadora" class="boton boton-verde">📊 CALCULAR EMISIONES</a>
 </header>
 
-
 <section id="contaminacion">
-
 <div class="titulo">
-
 <h2>🏭 Contaminación</h2>
-
-<p>
-Las actividades humanas pueden producir emisiones
-de gases de efecto invernadero mediante el transporte,
-la generación de electricidad y el uso de combustibles.
-</p>
-
+<p>Las actividades humanas pueden producir emisiones de gases de efecto invernadero mediante el transporte, la generación de electricidad y el uso de combustibles.</p>
 </div>
 
-
-<div class="escena">
-
+<div class="escena" id="escena">
 <div class="ciudad"></div>
-
-
-<div class="fabrica">
-
-<div class="chimenea"></div>
-
-</div>
-
-
+<div class="fabrica"><div class="chimenea" id="chimenea"></div></div>
 <div class="humo"></div>
-
-
-<!-- CO₂ -->
-
-<div class="co2 co2-1">
-CO₂
+<div class="carro" id="carro1"><svg viewBox="0 0 160 60" aria-hidden="true">
+<ellipse cx="80" cy="57" rx="72" ry="3.5" fill="rgba(0,0,0,.4)"/>
+<rect x="-4" y="41" width="12" height="3" rx="1.5" fill="#4a4f4d"/>
+<path d="M6 44V35Q6 31 12 30L38 27L52 13Q55 10 60 10H100Q106 10 110 14L124 27L146 31Q154 33 154 39V44Q154 47 150 47H10Q6 47 6 44Z" fill="#c4372a"/>
+<path d="M12 31L38 28L52 14Q55 11 60 11H100Q105 11 108 14" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+<path d="M55 26L63 14H79V26Z" fill="#a9d8e8"/><path d="M85 26V14H101Q104 14 107 17L117 26Z" fill="#a9d8e8"/>
+<path d="M63 14H79V19L58 26H55Z" fill="rgba(255,255,255,.35)"/>
+<path d="M82 14V45" stroke="rgba(0,0,0,.3)" stroke-width="1.2"/>
+<rect x="88" y="30" width="9" height="2.5" rx="1.2" fill="rgba(0,0,0,.35)"/>
+<rect x="6" y="43" width="148" height="4" rx="2" fill="rgba(0,0,0,.28)"/>
+<path d="M147 33L154 35V39L146 38Z" fill="#fff3b0"/>
+<rect x="6" y="34" width="5" height="5" rx="1.5" fill="#ff3b30"/>
+<circle cx="36" cy="47" r="12" fill="#101312"/>
+<g class="rueda"><circle cx="36" cy="47" r="10" fill="#1a1a1a" stroke="#050505" stroke-width="2"/>
+<circle cx="36" cy="47" r="6" fill="#c9cfcc"/>
+<path d="M30 47H42M36 41V53M30 41L42 53M30 53L42 41" stroke="#6b7370" stroke-width="1.6"/></g>
+<circle cx="36" cy="47" r="2.2" fill="#555"/><circle cx="124" cy="47" r="12" fill="#101312"/>
+<g class="rueda"><circle cx="124" cy="47" r="10" fill="#1a1a1a" stroke="#050505" stroke-width="2"/>
+<circle cx="124" cy="47" r="6" fill="#c9cfcc"/>
+<path d="M118 47H130M124 41V53M118 41L130 53M118 53L130 41" stroke="#6b7370" stroke-width="1.6"/></g>
+<circle cx="124" cy="47" r="2.2" fill="#555"/>
+</svg></div>
+<div class="carro carro2" id="carro2"><svg viewBox="0 0 160 60" aria-hidden="true">
+<ellipse cx="80" cy="57" rx="72" ry="3.5" fill="rgba(0,0,0,.4)"/>
+<rect x="-4" y="42" width="12" height="3" rx="1.5" fill="#4a4f4d"/>
+<path d="M6 45V31Q6 27 12 26L30 23L40 9Q42 7 46 7H120Q126 7 129 11L140 25L148 28Q154 30 154 37V45Q154 48 150 48H10Q6 48 6 45Z" fill="#d9a63a"/>
+<path d="M12 27L30 24L41 10Q43 8 46 8H120" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+<path d="M44 23L50 11H78V23Z" fill="#a9d8e8"/><path d="M84 23V11H116Q119 11 121 14L129 23Z" fill="#a9d8e8"/>
+<path d="M50 11H78V16L47 23H44Z" fill="rgba(255,255,255,.35)"/>
+<path d="M81 11V46" stroke="rgba(0,0,0,.3)" stroke-width="1.2"/>
+<rect x="88" y="30" width="9" height="2.5" rx="1.2" fill="rgba(0,0,0,.35)"/>
+<path d="M48 5H118" stroke="#3a3f3d" stroke-width="2" stroke-linecap="round"/>
+<rect x="6" y="44" width="148" height="4" rx="2" fill="rgba(0,0,0,.28)"/>
+<path d="M147 31L154 33V38L146 37Z" fill="#fff3b0"/>
+<rect x="6" y="32" width="5" height="6" rx="1.5" fill="#ff3b30"/>
+<circle cx="38" cy="48" r="13" fill="#101312"/>
+<g class="rueda"><circle cx="38" cy="48" r="11" fill="#1a1a1a" stroke="#050505" stroke-width="2"/>
+<circle cx="38" cy="48" r="7" fill="#c9cfcc"/>
+<path d="M31 48H45M38 41V55M32 42L44 54M32 54L44 42" stroke="#6b7370" stroke-width="1.6"/></g>
+<circle cx="38" cy="48" r="2.2" fill="#555"/><circle cx="122" cy="48" r="13" fill="#101312"/>
+<g class="rueda"><circle cx="122" cy="48" r="11" fill="#1a1a1a" stroke="#050505" stroke-width="2"/>
+<circle cx="122" cy="48" r="7" fill="#c9cfcc"/>
+<path d="M115 48H129M122 41V55M116 42L128 54M116 54L128 42" stroke="#6b7370" stroke-width="1.6"/></g>
+<circle cx="122" cy="48" r="2.2" fill="#555"/>
+</svg></div>
+<div class="neblina" id="neblina"></div>
 </div>
 
-<div class="co2 co2-2">
-CO₂
+<div class="medidor">
+<div class="medidor-datos">
+<div><strong id="kmTotal">0</strong><span>km recorridos por los carros</span></div>
+<div><strong id="co2Total">0.0</strong><span>kg CO₂e emitidos</span></div>
+<div><strong id="nivelTexto">Aire limpio</strong><span>calidad del aire en la escena</span></div>
 </div>
-
-<div class="co2 co2-3">
-CO₂
+<div class="nivel"><span id="nivelBarra"></span></div>
+<small>Estimación educativa: cada bocanada de humo representa 1 km recorrido, con el factor de 0,21 kg CO₂e por km de la calculadora.</small>
+<div style="text-align:center">
+<button type="button" id="limpiar" class="boton boton-limpiar">🍃 Limpiar el aire</button>
 </div>
-
-
-<!-- Indicador -->
-
-<div class="indicador-contaminacion">
-
-<span class="punto-contaminacion"></span>
-
-Contaminación por carbono
-
 </div>
-
-
-<!-- CARRO 1 -->
-
-<div class="carro">
-
-<span class="humo-carro"></span>
-
-<span class="humo-carro humo-carro2"></span>
-
-<span class="humo-carro humo-carro3"></span>
-
-</div>
-
-
-<!-- CARRO 2 -->
-
-<div class="carro carro2">
-
-<span class="humo-carro"></span>
-
-<span class="humo-carro humo-carro2"></span>
-
-<span class="humo-carro humo-carro3"></span>
-
-</div>
-
-
-</div>
-
 
 <div class="grid" style="margin-top:25px">
-
-
-<div class="card">
-
-<div class="icono">⚡</div>
-
-<h3>Electricidad</h3>
-
-<p>
-El impacto climático de la electricidad depende
-de la fuente utilizada para generarla.
-</p>
-
+<div class="card"><div class="icono">⚡</div><h3>Electricidad</h3><p>El impacto climático de la electricidad depende de la fuente utilizada para generarla.</p></div>
+<div class="card"><div class="icono">🚗</div><h3>Transporte</h3><p>Los vehículos que utilizan combustibles fósiles generan emisiones durante su funcionamiento.</p></div>
+<div class="card"><div class="icono">⛽</div><h3>Combustibles</h3><p>La combustión de gasolina y otros combustibles produce emisiones de gases de efecto invernadero.</p></div>
 </div>
-
-
-<div class="card">
-
-<div class="icono">🚗</div>
-
-<h3>Transporte</h3>
-
-<p>
-Los vehículos que utilizan combustibles fósiles
-generan emisiones durante su funcionamiento.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">⛽</div>
-
-<h3>Combustibles</h3>
-
-<p>
-La combustión de gasolina y otros combustibles
-produce emisiones de gases de efecto invernadero.
-</p>
-
-</div>
-
-
-</div>
-
 </section>
 
-
-<!-- =================================================
-     CALCULADORA
-================================================= -->
-
-
+<!-- CALCULADORA -->
 <section id="calculadora">
-
 <div class="titulo">
-
 <h2>📊 Calculadora de emisiones</h2>
-
-<p>
-Mueve las barras y observa cómo cambian
-automáticamente las emisiones.
-</p>
-
+<p>Mueve las barras y observa cómo cambian automáticamente las emisiones.</p>
 </div>
-
 
 <div class="calculadora">
 
-
 <div class="control">
-
-<label>
-
-<span>
-⚡ Electricidad
-</span>
-
-<span class="valor">
-
-<span id="elecValor">
-250
-</span>
-
-kWh/mes
-
-</span>
-
-</label>
-
-
-<input
-id="elec"
-type="range"
-min="0"
-max="2000"
-step="10"
-value="250"
->
-
-
+<label><span>⚡ Electricidad</span><span class="valor"><span id="elecValor">250</span> kWh/mes</span></label>
+<input id="elec" type="range" min="0" max="2000" step="10" value="250">
 </div>
 
-
 <div class="control">
-
-<label>
-
-<span>
-🚗 Transporte
-</span>
-
-<span class="valor">
-
-<span id="transValor">
-400
-</span>
-
-km/mes
-
-</span>
-
-</label>
-
-
-<input
-id="trans"
-type="range"
-min="0"
-max="5000"
-step="10"
-value="400"
->
-
-
+<label><span>🚗 Transporte</span><span class="valor"><span id="transValor">400</span> km/mes</span></label>
+<input id="trans" type="range" min="0" max="5000" step="10" value="400">
 </div>
 
-
 <div class="control">
-
-<label>
-
-<span>
-⛽ Combustible
-</span>
-
-<span class="valor">
-
-<span id="fuelValor">
-40
-</span>
-
-L/mes
-
-</span>
-
-</label>
-
-
-<input
-id="fuel"
-type="range"
-min="0"
-max="500"
-step="1"
-value="40"
->
-
-
+<label><span>⛽ Combustible</span><span class="valor"><span id="fuelValor">40</span> L/mes</span></label>
+<input id="fuel" type="range" min="0" max="500" step="1" value="40">
 </div>
 
-
 <div class="control">
-
-<label>
-
-<span>
-☀️ Electricidad renovable
-</span>
-
-<span class="valor">
-
-<span id="renValor">
-30
-</span>
-
-%
-
-</span>
-
-</label>
-
-
-<input
-id="ren"
-type="range"
-min="0"
-max="100"
-step="1"
-value="30"
->
-
-
+<label><span>☀️ Electricidad renovable</span><span class="valor"><span id="renValor">30</span> %</span></label>
+<input id="ren" type="range" min="0" max="100" step="1" value="30">
 </div>
-
 
 <div class="resultados">
-
-
-<div class="resultado">
-
-🔥 Emisiones actuales
-
-<strong id="actual">
-0
-</strong>
-
-kg CO₂e/mes
-
+<div class="resultado">🔥 Emisiones actuales<strong id="actual">0</strong>kg CO₂e/mes</div>
+<div class="resultado">🌱 Emisiones evitables<strong id="evitable">0</strong>kg CO₂e/mes</div>
+<div class="resultado">🌎 Emisiones finales<strong id="final">0</strong>kg CO₂e/mes</div>
 </div>
 
+<div class="barra"><span id="barra"></span></div>
 
-<div class="resultado">
-
-🌱 Emisiones evitables
-
-<strong id="evitable">
-0
-</strong>
-
-kg CO₂e/mes
-
-</div>
-
-
-<div class="resultado">
-
-🌎 Emisiones finales
-
-<strong id="final">
-0
-</strong>
-
-kg CO₂e/mes
-
-</div>
-
-
-</div>
-
-
-<div class="barra">
-
-<span id="barra"></span>
-
-</div>
-
-
-<canvas
-id="grafica"
-width="900"
-height="280">
-</canvas>
-
+<canvas id="grafica" width="900" height="280"></canvas>
 
 <div style="text-align:center">
-
-
-<button
-type="button"
-id="guardar"
-class="boton boton-verde">
-
-📊 GUARDAR ESCENARIO EN GOOGLE SHEETS
-
-</button>
-
-
-<p
-id="saveStatus"
-class="estado">
-</p>
-
-
+<button type="button" id="guardar" class="boton boton-verde">📊 GUARDAR ESCENARIO EN GOOGLE SHEETS</button>
+<p id="saveStatus" class="estado"></p>
 </div>
 
-
 </div>
-
 </section>
 
-
-<!-- =================================================
-     DESCARBONIZACIÓN
-================================================= -->
-
-
+<!-- DESCARBONIZACIÓN -->
 <section id="descarbonizacion">
-
 <div class="titulo">
-
 <h2>🔄 Descarbonización</h2>
-
-<p>
-Mueve la barra para representar una transición
-desde una mayor dependencia fósil hacia una
-mayor descarbonización.
-</p>
-
+<p>Mueve la barra para representar una transición desde una mayor dependencia fósil hacia una mayor descarbonización.</p>
 </div>
-
 
 <div class="transicion">
-
 <div class="sol"></div>
-
-<div
-class="fabrica2"
-id="fabrica">
-
-🏭
-
+<div class="fabrica2" id="fabrica">🏭</div>
+<div class="viento">🌬️</div>
+<div class="arboles">🌳 🌲 🌳</div>
 </div>
-
-<div class="viento">
-
-🌬️
-
-</div>
-
-<div class="arboles">
-
-🌳 🌲 🌳
-
-</div>
-
-</div>
-
 
 <div class="etiquetas">
-
-<span>
-🏭 Fósiles
-</span>
-
-<span>
-☀️ Renovables
-</span>
-
+<span>🏭 Fósiles</span>
+<span>☀️ Renovables</span>
 </div>
 
-
-<input
-id="transicion"
-type="range"
-min="0"
-max="100"
-value="0"
-style="width:100%;accent-color:#4ee69a"
->
-
-
+<input id="transicion" type="range" min="0" max="100" value="0" style="width:100%;accent-color:#4ee69a">
 </section>
 
-
-<!-- =================================================
-     ENERGÍAS RENOVABLES
-================================================= -->
-
-
+<!-- ENERGÍAS RENOVABLES -->
 <section id="energia">
-
 <div class="titulo">
-
 <h2>⚡ Energías renovables</h2>
-
-<p>
-Fuentes de energía que aprovechan recursos naturales
-que se regeneran continuamente.
-</p>
-
+<p>Fuentes de energía que aprovechan recursos naturales que se regeneran continuamente.</p>
 </div>
-
 
 <div class="grid">
-
-
-<div class="card">
-
-<div class="icono">☀️</div>
-
-<h3>Solar</h3>
-
-<p>
-Utiliza la radiación del Sol para producir electricidad
-o calor.
-</p>
-
+<div class="card"><div class="icono">☀️</div><h3>Solar</h3><p>Utiliza la radiación del Sol para producir electricidad o calor.</p></div>
+<div class="card"><div class="icono">🌬️</div><h3>Eólica</h3><p>Aprovecha la energía del viento mediante aerogeneradores.</p></div>
+<div class="card"><div class="icono">💧</div><h3>Hidroeléctrica</h3><p>Utiliza el movimiento del agua para generar electricidad.</p></div>
+<div class="card"><div class="icono">🌋</div><h3>Geotérmica</h3><p>Aprovecha el calor interno de la Tierra.</p></div>
+<div class="card"><div class="icono">🌊</div><h3>Energía marina</h3><p>Aprovecha el movimiento de las olas y las mareas.</p></div>
+<div class="card"><div class="icono">🌱</div><h3>Biomasa</h3><p>Utiliza materia orgánica como fuente energética.</p></div>
 </div>
-
-
-<div class="card">
-
-<div class="icono">🌬️</div>
-
-<h3>Eólica</h3>
-
-<p>
-Aprovecha la energía del viento mediante
-aerogeneradores.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">💧</div>
-
-<h3>Hidroeléctrica</h3>
-
-<p>
-Utiliza el movimiento del agua para generar
-electricidad.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🌋</div>
-
-<h3>Geotérmica</h3>
-
-<p>
-Aprovecha el calor interno de la Tierra.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🌊</div>
-
-<h3>Energía marina</h3>
-
-<p>
-Aprovecha el movimiento de las olas y las mareas.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🌱</div>
-
-<h3>Biomasa</h3>
-
-<p>
-Utiliza materia orgánica como fuente energética.
-</p>
-
-</div>
-
-
-</div>
-
 </section>
-
 
 <section>
-
 <div class="titulo">
-
 <h2>🌱 Acciones para descarbonizar</h2>
-
-<p>
-La transición energética puede combinar eficiencia,
-energías renovables y cambios en la movilidad.
-</p>
-
+<p>La transición energética puede combinar eficiencia, energías renovables y cambios en la movilidad.</p>
 </div>
-
 
 <div class="grid">
-
-
-<div class="card">
-
-<div class="icono">💡</div>
-
-<h3>Eficiencia energética</h3>
-
-<p>
-Reducir el consumo innecesario puede disminuir
-la demanda de energía.
-</p>
-
+<div class="card"><div class="icono">💡</div><h3>Eficiencia energética</h3><p>Reducir el consumo innecesario puede disminuir la demanda de energía.</p></div>
+<div class="card"><div class="icono">☀️</div><h3>Energías renovables</h3><p>La generación renovable puede sustituir parte de la generación basada en combustibles fósiles.</p></div>
+<div class="card"><div class="icono">🚌</div><h3>Movilidad sostenible</h3><p>Caminar, bicicleta, transporte público y electrificación pueden reducir el uso de combustibles.</p></div>
+<div class="card"><div class="icono">🌳</div><h3>Protección ambiental</h3><p>Los ecosistemas cumplen funciones importantes dentro del ciclo del carbono.</p></div>
 </div>
-
-
-<div class="card">
-
-<div class="icono">☀️</div>
-
-<h3>Energías renovables</h3>
-
-<p>
-La generación renovable puede sustituir parte
-de la generación basada en combustibles fósiles.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🚌</div>
-
-<h3>Movilidad sostenible</h3>
-
-<p>
-Caminar, bicicleta, transporte público y
-electrificación pueden reducir el uso de combustibles.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<div class="icono">🌳</div>
-
-<h3>Protección ambiental</h3>
-
-<p>
-Los ecosistemas cumplen funciones importantes
-dentro del ciclo del carbono.
-</p>
-
-</div>
-
-
-</div>
-
 </section>
 
-
 <footer>
-
 <h3>🌱 EL CARBONO</h3>
-
-<p>
-Proyecto educativo sobre huella de carbono
-y descarbonización.
-</p>
-
-<p>
-Los factores utilizados en la calculadora son
-simplificados y tienen fines educativos.
-</p>
-
+<p>Proyecto educativo sobre huella de carbono y descarbonización.</p>
+<p>Los factores utilizados en la calculadora son simplificados y tienen fines educativos.</p>
 </footer>
 
+<button id="sonido">🔊</button>
 
-<button id="sonido">
-🔊
-</button>
-
-
-<!-- =================================================
-     JAVASCRIPT
-================================================= -->
-
+<!-- JAVASCRIPT -->
 <script>
-
 "use strict";
 
-
-/* ==============================================
-   URL DE GOOGLE APPS SCRIPT
-============================================== */
-
+/* URL DE GOOGLE APPS SCRIPT */
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbx_1R7l5wQt5aZbQyz88-Z_Mh2XEgWj55fVLoyKVCjSBVZV_unE3nE15NoZ7zst5J-a/exec";
 
+/* ELEMENTOS */
+const elec = document.getElementById("elec");
+const trans = document.getElementById("trans");
+const fuel = document.getElementById("fuel");
+const ren = document.getElementById("ren");
 
-/* ==============================================
-   ELEMENTOS
-============================================== */
-
-const elec =
-document.getElementById("elec");
-
-const trans =
-document.getElementById("trans");
-
-const fuel =
-document.getElementById("fuel");
-
-const ren =
-document.getElementById("ren");
-
-
-/* ==============================================
-   FUNCIÓN PRINCIPAL
-============================================== */
-
+/* FUNCIÓN PRINCIPAL */
 function calcular(){
+  const electricidad = Number(elec.value);
+  const transporte = Number(trans.value);
+  const combustible = Number(fuel.value);
+  const renovables = Number(ren.value);
 
-const electricidad =
-Number(elec.value);
+  /* Factores educativos */
+  const emisionesActuales = (electricidad * 0.40) + (transporte * 0.21) + (combustible * 2.31);
+  const emisionesEvitables = electricidad * 0.40 * (renovables / 100);
+  const emisionesFinales = Math.max(0, emisionesActuales - emisionesEvitables);
 
-const transporte =
-Number(trans.value);
+  document.getElementById("elecValor").textContent = electricidad;
+  document.getElementById("transValor").textContent = transporte;
+  document.getElementById("fuelValor").textContent = combustible;
+  document.getElementById("renValor").textContent = renovables;
 
-const combustible =
-Number(fuel.value);
+  document.getElementById("actual").textContent = emisionesActuales.toFixed(1);
+  document.getElementById("evitable").textContent = emisionesEvitables.toFixed(1);
+  document.getElementById("final").textContent = emisionesFinales.toFixed(1);
 
-const renovables =
-Number(ren.value);
+  let reduccion = 0;
+  if(emisionesActuales > 0){
+    reduccion = (emisionesEvitables / emisionesActuales) * 100;
+  }
+  document.getElementById("barra").style.width = Math.min(100, reduccion) + "%";
 
-
-/* Factores educativos */
-
-const emisionesActuales =
-(electricidad * 0.40) +
-(transporte * 0.21) +
-(combustible * 2.31);
-
-
-const emisionesEvitables =
-electricidad *
-0.40 *
-(renovables / 100);
-
-
-const emisionesFinales =
-Math.max(
-0,
-emisionesActuales -
-emisionesEvitables
-);
-
-
-/* Mostrar valores de las barras */
-
-document.getElementById(
-"elecValor"
-).textContent =
-electricidad;
-
-
-document.getElementById(
-"transValor"
-).textContent =
-transporte;
-
-
-document.getElementById(
-"fuelValor"
-).textContent =
-combustible;
-
-
-document.getElementById(
-"renValor"
-).textContent =
-renovables;
-
-
-/* Mostrar resultados */
-
-document.getElementById(
-"actual"
-).textContent =
-emisionesActuales.toFixed(1);
-
-
-document.getElementById(
-"evitable"
-).textContent =
-emisionesEvitables.toFixed(1);
-
-
-document.getElementById(
-"final"
-).textContent =
-emisionesFinales.toFixed(1);
-
-
-/* Barra de reducción */
-
-let reduccion = 0;
-
-if(emisionesActuales > 0){
-
-reduccion =
-(emisionesEvitables /
-emisionesActuales) *
-100;
-
+  dibujarGrafica(emisionesActuales, emisionesEvitables, emisionesFinales);
 }
 
-document.getElementById(
-"barra"
-).style.width =
-Math.min(100,reduccion) + "%";
+elec.addEventListener("input", calcular);
+trans.addEventListener("input", calcular);
+fuel.addEventListener("input", calcular);
+ren.addEventListener("input", calcular);
 
+/* GRÁFICA */
+function dibujarGrafica(actual, evitable, final){
+  const canvas = document.getElementById("grafica");
+  const ctx = canvas.getContext("2d");
+  const ancho = canvas.width;
+  const alto = canvas.height;
 
-/* Dibujar gráfica */
+  ctx.clearRect(0, 0, ancho, alto);
+  ctx.fillStyle = "#06150f";
+  ctx.fillRect(0, 0, ancho, alto);
 
-dibujarGrafica(
-emisionesActuales,
-emisionesEvitables,
-emisionesFinales
-);
+  const valores = [actual, evitable, final];
+  const nombres = ["Actuales", "Evitables", "Finales"];
+  const maximo = Math.max(...valores, 1);
+  const base = alto - 50;
+  const anchoBarra = 120;
+  const espacio = 80;
+  const inicio = (ancho - (3 * anchoBarra + 2 * espacio)) / 2;
 
+  for(let i = 0; i < 3; i++){
+    const valor = valores[i];
+    const altura = (valor / maximo) * 170;
+    const x = inicio + i * (anchoBarra + espacio);
+    const y = base - altura;
+
+    ctx.fillStyle = i === 1 ? "#4ee69a" : "#286f50";
+    ctx.fillRect(x, y, anchoBarra, altura);
+
+    ctx.textAlign = "center";
+    ctx.font = "bold 16px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(valor.toFixed(1), x + anchoBarra / 2, y - 10);
+
+    ctx.font = "15px Arial";
+    ctx.fillStyle = "#b8d0c3";
+    ctx.fillText(nombres[i], x + anchoBarra / 2, base + 25);
+  }
 }
 
+/* TRANSICIÓN */
+document.getElementById("transicion").addEventListener("input", function(){
+  const valor = Number(this.value);
+  const fabrica = document.getElementById("fabrica");
+  fabrica.style.opacity = 1 - valor / 100;
+  fabrica.style.transform = "translateX(" + (valor * 0.4) + "px)";
+});
 
 /* ==============================================
-   EVENTOS DE LAS BARRAS
+   HUMO DE LOS CARROS Y CONTAMINACIÓN ACUMULADA
 ============================================== */
-
-elec.addEventListener(
-"input",
-calcular
-);
-
-trans.addEventListener(
-"input",
-calcular
-);
-
-fuel.addEventListener(
-"input",
-calcular
-);
-
-ren.addEventListener(
-"input",
-calcular
-);
-
-
-/* ==============================================
-   GRÁFICA
-============================================== */
-
-function dibujarGrafica(
-actual,
-evitable,
-final
-){
-
-const canvas =
-document.getElementById("grafica");
-
-const ctx =
-canvas.getContext("2d");
-
-
-const ancho =
-canvas.width;
-
-const alto =
-canvas.height;
-
-
-ctx.clearRect(
-0,
-0,
-ancho,
-alto
-);
-
-
-/* Fondo */
-
-ctx.fillStyle =
-"#06150f";
-
-ctx.fillRect(
-0,
-0,
-ancho,
-alto
-);
-
-
-const valores = [
-actual,
-evitable,
-final
-];
-
-
-const nombres = [
-"Actuales",
-"Evitables",
-"Finales"
-];
-
-
-const maximo =
-Math.max(
-...valores,
-1
-);
-
-
-const base =
-alto - 50;
-
-
-const anchoBarra =
-120;
-
-
-const espacio =
-80;
-
-
-const inicio =
-(
-ancho -
-(
-3 * anchoBarra +
-2 * espacio
-)
-) / 2;
-
-
-for(
-let i=0;
-i<3;
-i++
-){
-
-const valor =
-valores[i];
-
-
-const altura =
-(valor / maximo) * 170;
-
-
-const x =
-inicio +
-i *
-(
-anchoBarra +
-espacio
-);
-
-
-const y =
-base -
-altura;
-
-
-ctx.fillStyle =
-i === 1
-?
-"#4ee69a"
-:
-"#286f50";
-
-
-ctx.fillRect(
-x,
-y,
-anchoBarra,
-altura
-);
-
-
-ctx.textAlign =
-"center";
-
-
-ctx.font =
-"bold 16px Arial";
-
-
-ctx.fillStyle =
-"#ffffff";
-
-
-ctx.fillText(
-valor.toFixed(1),
-x + anchoBarra / 2,
-y - 10
-);
-
-
-ctx.font =
-"15px Arial";
-
-
-ctx.fillStyle =
-"#b8d0c3";
-
-
-ctx.fillText(
-nombres[i],
-x + anchoBarra / 2,
-base + 25
-);
-
-}
-
-}
-
-
-/* ==============================================
-   TRANSICIÓN
-============================================== */
-
-document
-.getElementById("transicion")
-.addEventListener(
-"input",
-function(){
-
-const valor =
-Number(this.value);
-
-
-const fabrica =
-document.getElementById(
-"fabrica"
-);
-
-
-fabrica.style.opacity =
-1 - valor / 100;
-
-
-fabrica.style.transform =
-"translateX(" +
-(valor * 0.4) +
-"px)";
-
-}
-);
-
-
-/* ==============================================
-   GOOGLE SHEETS
-============================================== */
-
-document
-.getElementById("guardar")
-.addEventListener(
-"click",
-guardarEscenario
-);
-
+(function(){
+  const escena = document.getElementById("escena");
+  const carros = [document.getElementById("carro1"), document.getElementById("carro2")];
+  const chimenea = document.getElementById("chimenea");
+  const neblina = document.getElementById("neblina");
+
+  const FACTOR_KM = 0.21;      /* kg CO₂e por km (mismo factor de la calculadora) */
+  const CADA_MS = 260;         /* una bocanada por carro cada 260 ms */
+  const MAX_NEBLINA = 0.6;     /* opacidad máxima de la neblina */
+  const KG_PARA_MAX = 25;      /* kg a partir de los cuales el aire se ve muy contaminado */
+
+  let km = 0;
+  let ultimo = 0;
+  let ultimaFabrica = 0;
+
+  function crearBocanada(x, y, extra){
+    const b = document.createElement("div");
+    b.className = "bocanada" + (extra ? " " + extra : "");
+    b.style.left = x + "px";
+    b.style.top = y + "px";
+    b.style.setProperty("--dx", (-20 - Math.random() * 40) + "px");
+    b.style.setProperty("--dy", (-50 - Math.random() * 40) + "px");
+    b.style.setProperty("--s", (extra ? 4.2 : 2.8 + Math.random() * 1.2).toFixed(2));
+    escena.appendChild(b);
+    setTimeout(function(){ b.remove(); }, extra ? 5200 : 3400);
+  }
+
+  function crearMancha(x){
+    const m = document.createElement("div");
+    m.className = "mancha";
+    m.style.left = (x - 25) + "px";
+    m.style.width = "60px";
+    escena.appendChild(m);
+    setTimeout(function(){ m.remove(); }, 9200);
+  }
+
+  function actualizarMedidor(){
+    const kg = km * FACTOR_KM;
+    const nivel = Math.min(1, kg / KG_PARA_MAX);
+
+    document.getElementById("kmTotal").textContent = km;
+    document.getElementById("co2Total").textContent = kg.toFixed(1);
+    neblina.style.opacity = (nivel * MAX_NEBLINA).toFixed(3);
+
+    const barra = document.getElementById("nivelBarra");
+    barra.style.width = (nivel * 100) + "%";
+
+    let texto = "Aire limpio", color = "#4ee69a";
+    if(nivel > 0.66){ texto = "Muy contaminado"; color = "#e8604c"; }
+    else if(nivel > 0.33){ texto = "Contaminado"; color = "#e0b43f"; }
+    else if(nivel > 0.05){ texto = "Algo de humo"; color = "#a6e04e"; }
+    barra.style.background = color;
+    document.getElementById("nivelTexto").textContent = texto;
+  }
+
+  function ciclo(t){
+    if(t - ultimo >= CADA_MS){
+      ultimo = t;
+      const e = escena.getBoundingClientRect();
+
+      carros.forEach(function(c){
+        const r = c.getBoundingClientRect();
+        const x = r.left - e.left;
+        /* Solo emite humo mientras el carro está dentro de la escena */
+        if(x > -5 && x < e.width){
+          crearBocanada(x - 4, r.bottom - e.top - 14);
+          km += 1;
+          if(Math.random() < 0.35){ crearMancha(x); }
+        }
+      });
+      actualizarMedidor();
+    }
+
+    if(t - ultimaFabrica >= 900){
+      ultimaFabrica = t;
+      const e = escena.getBoundingClientRect();
+      const c = chimenea.getBoundingClientRect();
+      crearBocanada(c.left - e.left + c.width / 2, c.top - e.top, "fabrica-humo");
+    }
+
+    requestAnimationFrame(ciclo);
+  }
+
+  document.getElementById("limpiar").addEventListener("click", function(){
+    km = 0;
+    actualizarMedidor();
+  });
+
+  requestAnimationFrame(ciclo);
+})();
+
+/* GOOGLE SHEETS */
+document.getElementById("guardar").addEventListener("click", guardarEscenario);
 
 function guardarEscenario(){
+  const status = document.getElementById("saveStatus");
 
-const status =
-document.getElementById(
+  const electricidad = Number(elec.value);
+  const transporte = Number(trans.value);
+  const combustible = Number(fuel.value);
+  const renovables = Number(ren.value);
+
+  const emisionesActuales = (electricidad * 0.40) + (transporte * 0.21) + (combustible * 2.31);
+  const emisionesEvitables = electricidad * 0.40 * (renovables / 100);
+  const emisionesFinales = Math.max(0, emisionesActuales - emisionesEvitables);
+
+  status.textContent = "⏳ Enviando datos...";
+
+  /* Formulario invisible */
+  const formulario = document.createElement("form");
+  formulario.method = "POST";
+  formulario.action = SCRIPT_URL;
+  /* Se abre en un iframe invisible para evitar problemas de CORS */
+  formulario.target = "googleSheetsFrame";
+  formulario.style.display = "none";
+
+  const datos = {
+    fecha: new Date().toLocaleString("es-CO"),
+    electricidad: electricidad,
+    transporte: transporte,
+    combustible: combustible,
+    renovables: renovables,
+    emisionesActuales: emisionesActuales.toFixed(2),
+    emisionesEvitables: emisionesEvitables.toFixed(2),
+    emisionesFinales: emisionesFinales.toFixed(2)
+  };
+
+  for(const nombre in datos){
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = nombre;
+    input.value = datos[nombre];
+    formulario.appendChild(input);
+  }
+
+  document.body.appendChild(formulario);
+  formulario.submit();
+
+  status.textContent = "✅ Escenario enviado. Revisa Google Sheets y tu correo.";
+
+  setTimeout(function(){ formulario.remove(); }, 2000);
+}
+
+/* IFRAME INVISIBLE */
+const iframe = document.createElement("iframe");
+iframe.name = "googleSheetsFrame";
+iframe.style.display = "none";
+document.body.appendChild(iframe);
+
+/* SONIDO */
+let sonidoActivo = false;
+let audio = null;
+
+document.getElementById("sonido").addEventListener("click", function(){
+  sonidoActivo = !sonidoActivo;
+  this.textContent = sonidoActivo ? "🔊" : "🔇";
+  if(sonidoActivo && !audio){
+    audio = new (window.AudioContext || window.webkitAudioContext)();
+  }
+});
+
+/* INICIAR CALCULADORA */
+calcular();
+</script>
+
+</body>
+</html>
