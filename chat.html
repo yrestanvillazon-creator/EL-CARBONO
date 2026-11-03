@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yelf | Chat de EL CARBONO</title>
+<style>
+*{box-sizing:border-box}
+:root[data-theme="dark"]{--bg:#06150f;--panel:#092319;--panel2:#0d3021;--bd:#24543e;--tx:#f2fff8;--mut:#9bb8a8;--ac:#50e59a;--actx:#032014;--user:#17442f}
+:root[data-theme="light"]{--bg:#f3faf6;--panel:#ffffff;--panel2:#e6f4ec;--bd:#c5ddcf;--tx:#0b2a1c;--mut:#4f6b5c;--ac:#1b9a5f;--actx:#ffffff;--user:#d8f1e3}
+html,body{height:100%;margin:0}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--tx);line-height:1.55}
+.app{display:flex;height:100%}
+aside{width:270px;background:var(--panel);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:12px;gap:10px;transition:transform .25s}
+button{font-family:inherit;cursor:pointer}
+.btn{background:var(--ac);color:var(--actx);border:none;border-radius:10px;padding:11px 14px;font-weight:bold;font-size:14px}
+.ghost{background:transparent;color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:8px 12px}
+#lista{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:9px 10px;border-radius:10px;cursor:pointer;font-size:14px}
+.item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item:hover,.item.act{background:var(--panel2)}
+.item button{background:none;border:none;color:var(--mut);font-size:14px}
+.volver{color:var(--mut);text-decoration:none;font-size:14px;padding:6px 4px}
+.volver:hover{color:var(--ac)}
+main{flex:1;display:flex;flex-direction:column;min-width:0}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--panel)}
+header .ttl{flex:1;font-weight:bold}
+header small{display:block;color:var(--mut);font-weight:normal;font-size:12px}
+#menu{display:none}
+#msgs{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
+.fila{max-width:820px;width:100%;margin:0 auto;display:flex}
+.fila.yo{justify-content:flex-end}
+.burbuja{padding:12px 16px;border-radius:16px;max-width:90%;word-wrap:break-word;white-space:pre-wrap;font-size:15px}
+.yo .burbuja{background:var(--user);border:1px solid var(--bd)}
+.bot .burbuja{background:var(--panel);border:1px solid var(--bd)}
+.burbuja code{background:var(--panel2);padding:1px 6px;border-radius:6px;font-family:monospace}
+.cursor::after{content:"▍";animation:parp 1s infinite;color:var(--ac)}
+@keyframes parp{50%{opacity:0}}
+#vacio{max-width:700px;margin:auto;text-align:center;padding:20px}
+#vacio h1{font-size:34px;margin:6px 0;color:var(--ac)}
+#vacio p{color:var(--mut)}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:22px}
+.chips button{background:var(--panel);color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:14px;text-align:left;font-size:14px}
+.chips button:hover{border-color:var(--ac)}
+form{display:flex;gap:10px;padding:12px 16px 18px;max-width:852px;width:100%;margin:0 auto}
+textarea{flex:1;resize:none;max-height:160px;padding:13px 16px;border-radius:16px;border:1px solid var(--bd);background:var(--panel);color:var(--tx);font-family:inherit;font-size:15px}
+#enviar{width:48px;border-radius:50%;border:none;background:var(--ac);color:var(--actx);font-size:18px;font-weight:bold}
+.pie{text-align:center;color:var(--mut);font-size:12px;padding-bottom:10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.abierto{display:flex}
+.caja{background:var(--panel);border:1px solid var(--bd);border-radius:18px;padding:22px;width:min(480px,100%)}
+.caja h2{margin-top:0}
+.caja label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
+.caja input{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:14px}
+.caja p{font-size:12px;color:var(--mut)}
+.acciones{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+@media(max-width:760px){
+aside{position:fixed;z-index:40;height:100%;transform:translateX(-100%)}
+aside.abierto{transform:none}
+#menu{display:inline-block}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside id="side">
+<button class="btn" id="nuevo">＋ Nuevo chat</button>
+<div id="lista"></div>
+<a class="volver" href="index.html">← Volver a EL CARBONO</a>
+</aside>
+
+<main>
+<header>
+<button class="ghost" id="menu" aria-label="Menú">☰</button>
+<div class="ttl">🤖 Yelf<small id="modeloTxt">Asistente de huella de carbono y descarbonización</small></div>
+<button class="ghost" id="tema" title="Modo claro/oscuro">🌙</button>
+<button class="ghost" id="cfg" title="Configuración">⚙️</button>
+</header>
+
+<div id="msgs"></div>
+
+<form id="form">
+<textarea id="in" rows="1" placeholder="Pregúntale a Yelf sobre huella de carbono y descarbonización..."></textarea>
+<button type="submit" id="enviar" title="Enviar">➤</button>
+</form>
+<div class="pie">Yelf puede equivocarse. Verifica la información importante.</div>
+</main>
+</div>
+
+<div class="modal" id="modal">
+<div class="caja">
+<h2>⚙️ Configuración</h2>
+<label for="url">Endpoint (compatible con OpenAI)</label>
+<input id="url" placeholder="https://api.openai.com/v1/chat/completions">
+<label for="modelo">Modelo</label>
+<input id="modelo" placeholder="gpt-4o-mini">
+<label for="clave">API key</label>
+<input id="clave" type="password" placeholder="Pega aquí tu clave" autocomplete="off">
+<p>🔒 La clave no está escrita en el código. Se guarda solo en esta pestaña mientras esté abierta y se borra al cerrarla. Nunca la subas a GitHub.</p>
+<div class="acciones">
+<button class="ghost" id="cancelar" type="button">Cancelar</button>
+<button class="btn" id="guardarCfg" type="button">Guardar</button>
+</div>
+</div>
+</div>
+
+<script>
+"use strict";
+const $ = function(id){ return document.getElementById(id); };
+const SYS = "Eres Yelf, el asistente virtual de EL CARBONO, una página educativa. Eres experto en huella de carbono y descarbonización energética: gases de efecto invernadero, alcances 1, 2 y 3, transición energética, energías renovables (solar, eólica, hidroeléctrica, geotérmica, marina, biomasa), eficiencia energética, movilidad eléctrica, hidrógeno verde, almacenamiento, captura de carbono, neutralidad y Acuerdo de París. Responde siempre en español, de forma clara, breve y amable, con ejemplos cuando ayuden. La página EL CARBONO tiene una calculadora de emisiones (electricidad 0,40 kg CO2e/kWh, transporte 0,21 kg/km, combustible 2,31 kg/L; evitables = electricidad x 0,40 x % renovable; finales = actuales - evitables) que envía el reporte en PDF por correo. Si preguntan algo ajeno a estos temas, ayuda brevemente y orienta de vuelta a la huella de carbono y la descarbonización.";
+
+const SUGERENCIAS = [
+  "¿Qué es la huella de carbono?",
+  "¿Qué es la descarbonización energética?",
+  "¿Cómo puedo reducir mi huella en casa?",
+  "Explícame las energías renovables",
+  "¿Qué son los alcances 1, 2 y 3?",
+  "¿Cómo funciona la calculadora de EL CARBONO?"
+];
+
+/* ---------- ESTADO ---------- */
+let chats = [];
+try{ chats = JSON.parse(localStorage.getItem("yelf_chats") || "[]"); }catch(e){ chats = []; }
+let cfg = {url:"https://api.openai.com/v1/chat/completions", model:"gpt-4o-mini"};
+try{ Object.assign(cfg, JSON.parse(localStorage.getItem("yelf_cfg") || "{}")); }catch(e){}
+let clave = "";
+try{ clave = sessionStorage.getItem("yelf_key") || ""; }catch(e){}
+let actual = null;
+let ctrl = null;
+
+function guardar(){
+  try{ localStorage.setItem("yelf_chats", JSON.stringify(chats)); }catch(e){}
+}
+
+/* ---------- TEMA ---------- */
+function aplicarTema(t){
+  document.documentElement.setAttribute("data-theme", t);
+  $("tema").textContent = t === "dark" ? "🌙" : "☀️";
+  try{ localStorage.setItem("yelf_tema", t); }catch(e){}
+}
+aplicarTema((function(){ try{ return localStorage.getItem("yelf_tema") || "dark"; }catch(e){ return "dark"; } })());
+$("tema").addEventListener("click", function(){
+  aplicarTema(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+});
+
+/* ---------- UTILIDADES ---------- */
+function esc(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(t){
+  return esc(t)
+    .replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>")
+    .replace(/`([^`]+)`/g,"<code>$1</code>");
+}
+function nuevoId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function chatActual(){ return chats.find(function(c){ return c.id === actual; }); }
+
+/* ---------- HISTORIAL ---------- */
+function renderLista(){
+  const l = $("lista");
+  l.innerHTML = "";
+  chats.forEach(function(c){
+    const d = document.createElement("div");
+    d.className = "item" + (c.id === actual ? " act" : "");
+    const s = document.createElement("span");
+    s.textContent = "💬 " + c.titulo;
+    const b = document.createElement("button");
+    b.textContent = "✕";
+    b.title = "Borrar chat";
+    b.addEventListener("click", function(ev){ ev.stopPropagation(); borrar(c.id); });
+    d.appendChild(s); d.appendChild(b);
+    d.addEventListener("click", function(){ abrir(c.id); $("side").classList.remove("abierto"); });
+    l.appendChild(d);
+  });
+}
+
+function borrar(id){
+  chats = chats.filter(function(c){ return c.id !== id; });
+  guardar();
+  if(actual === id){ actual = chats.length ? chats[0].id : null; }
+  if(!actual){ nuevo(); return; }
+  abrir(actual);
+}
+
+function nuevo(){
+  if(ctrl){ ctrl.abort(); }
+  const c = {id:nuevoId(), titulo:"Nuevo chat", mensajes:[]};
+  chats.unshift(c);
+  actual = c.id;
+  guardar();
+  abrir(c.id);
+}
+
+function abrir(id){
+  actual = id;
+  renderLista();
+  const m = $("msgs");
+  m.innerHTML = "";
+  const c = chatActual();
+  if(!c.mensajes.length){
+    const v = document.createElement("div");
+    v.id = "vacio";
+    v.innerHTML = "<div style='font-size:54px'>🌱</div><h1>Hola, soy Yelf</h1><p>Tu asistente sobre huella de carbono y descarbonización energética. ¿Qué quieres saber?</p>";
+    const g = document.createElement("div");
+    g.className = "chips";
+    SUGERENCIAS.forEach(function(t){
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = t;
+      b.addEventListener("click", function(){ enviar(t); });
+      g.appendChild(b);
+    });
+    v.appendChild(g);
+    m.appendChild(v);
+  }else{
+    c.mensajes.forEach(function(x){ burbuja(x.role === "user" ? "yo" : "bot", x.content); });
+  }
+  $("modeloTxt").textContent = clave ? ("Modelo: " + cfg.model) : "Asistente de huella de carbono y descarbonización";
+}
+
+function burbuja(quien, texto){
+  const f = document.createElement("div");
+  f.className = "fila " + quien;
+  const b = document.createElement("div");
+  b.className = "burbuja";
+  b.innerHTML = fmt(texto);
+  f.appendChild(b);
+  $("msgs").appendChild(f);
+  $("msgs").scrollTop = $("msgs").scrollHeight;
+  return b;
+}
+
+/* ---------- ENVÍO CON STREAMING ---------- */
+function bloquear(v){
+  $("enviar").textContent = v ? "■" : "➤";
+  $("enviar").title = v ? "Detener" : "Enviar";
+}
+
+async function enviar(texto){
+  texto = (texto || "").trim();
+  if(!texto) return;
+  if(!clave){
+    $("modal").classList.add("abierto");
+    return;
+  }
+  const c = chatActual();
+  const vacio = $("vacio");
+  if(vacio) vacio.remove();
+
+  c.mensajes.push({role:"user", content:texto});
+  if(c.mensajes.length === 1){ c.titulo = texto.slice(0, 32); renderLista(); }
+  burbuja("yo", texto);
+
+  const resp = {role:"assistant", content:""};
+  const el = burbuja("bot", "");
+  el.classList.add("cursor");
+  ctrl = new AbortController();
+  bloquear(true);
+
+  try{
+    const res = await fetch(cfg.url, {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer " + clave},
+      body:JSON.stringify({
+        model:cfg.model,
+        stream:true,
+        temperature:0.5,
+        messages:[{role:"system", content:SYS}].concat(c.mensajes.slice(-20))
+      }),
+      signal:ctrl.signal
+    });
+
+    if(!res.ok){
+      let det = "";
+      try{ det = (await res.text()).slice(0, 200); }catch(e){}
+      throw new Error("Error " + res.status + (det ? ": " + det : ""));
+    }
+
+    const tipo = res.headers.get("content-type") || "";
+    if(res.body && tipo.indexOf("text/event-stream") !== -1){
+      const lector = res.body.getReader();
+      const deco = new TextDecoder();
+      let resto = "";
+      let fin = false;
+      while(!fin){
+        const r = await lector.read();
+        if(r.done) break;
+        resto += deco.decode(r.value, {stream:true});
+        const lineas = resto.split("\n");
+        resto = lineas.pop();
+        for(const l of lineas){
+          const t = l.trim();
+          if(t.indexOf("data:") !== 0) continue;
+          const dato = t.slice(5).trim();
+          if(dato === "[DONE]"){ fin = true; break; }
+          try{
+            const j = JSON.parse(dato);
+            const d = j.choices && j.choices[0] && j.choices[0].delta && j.choices[0].delta.content;
+            if(d){
+              resp.content += d;
+              el.innerHTML = fmt(resp.content);
+              $("msgs").scrollTop = $("msgs").scrollHeight;
+            }
+          }catch(e){}
+        }
+      }
+    }else{
+      const j = await res.json();
+      resp.content = j.choices[0].message.content;
+      el.innerHTML = fmt(resp.content);
+    }
+  }catch(err){
+    if(err.name === "AbortError"){
+      if(!resp.content) resp.content = "(Respuesta detenida)";
+    }else{
+      resp.content = "⚠️ No pude conectarme. " + err.message + "\n\nRevisa el endpoint, el modelo y la API key en ⚙️.";
+      el.innerHTML = fmt(resp.content);
+    }
+  }
+
+  el.classList.remove("cursor");
+  if(resp.content){ c.mensajes.push(resp); }
+  guardar();
+  ctrl = null;
+  bloquear(false);
+}
+
+/* ---------- EVENTOS ---------- */
+$("form").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  if(ctrl){ ctrl.abort(); return; }
+  const t = $("in").value;
+  $("in").value = "";
+  $("in").style.height = "auto";
+  enviar(t);
+});
+$("in").addEventListener("keydown", function(ev){
+  if(ev.key === "Enter" && !ev.shiftKey){ ev.preventDefault(); $("form").requestSubmit(); }
+});
+$("in").addEventListener("input", function(){
+  this.style.height = "auto";
+  this.style.height = Math.min(this.scrollHeight, 160) + "px";
+});
+$("nuevo").addEventListener("click", function(){ nuevo(); $("side").classList.remove("abierto"); });
+$("menu").addEventListener("click", function(){ $("side").classList.toggle("abierto"); });
+
+$("cfg").addEventListener("click", function(){
+  $("url").value = cfg.url;
+  $("modelo").value = cfg.model;
+  $("clave").value = clave;
+  $("modal").classList.add("abierto");
+});
+$("cancelar").addEventListener("click", function(){ $("modal").classList.remove("abierto"); });
+$("guardarCfg").addEventListener("click", function(){
+  cfg.url = $("url").value.trim() || cfg.url;
+  cfg.model = $("modelo").value.trim() || cfg.model;
+  clave = $("clave").value.trim();
+  try{
+    localStorage.setItem("yelf_cfg", JSON.stringify(cfg));
+    sessionStorage.setItem("yelf_key", clave);
+  }catch(e){}
+  $("modal").classList.remove("abierto");
+  $("modeloTxt").textContent = clave ? ("Modelo: " + cfg.model) : "Asistente de huella de carbono y descarbonización";
+});
+
+/* ---------- INICIO ---------- */
+if(!chats.length){ nuevo(); }
+else{ actual = chats[0].id; abrir(actual); }
+if(!clave){ setTimeout(function(){ $("modal").classList.add("abierto"); }, 400); }
+</script>
+</body>
+</html>
