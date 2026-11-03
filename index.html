@@ -96,6 +96,29 @@ footer{text-align:center;padding:50px 20px;border-top:1px solid #214b38;color:#b
 .bocanada,.mancha{animation-duration:.01s}
 .rueda,.carro svg{animation:none}
 }
+
+/* ===== SEKE: ASISTENTE VIRTUAL ===== */
+#sekeBtn{position:fixed;left:20px;bottom:20px;z-index:200;display:flex;align-items:center;gap:8px;padding:12px 18px;border-radius:30px;border:1px solid #4ee69a;background:#0b291c;color:#8fffc1;font-weight:bold;font-size:16px;cursor:pointer;box-shadow:0 0 20px rgba(78,230,154,.3)}
+#sekePanel{position:fixed;left:20px;bottom:80px;z-index:200;width:min(370px,calc(100vw - 40px));height:min(500px,70vh);display:none;flex-direction:column;background:#092319;border:1px solid #24543e;border-radius:20px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+#sekePanel.abierto{display:flex}
+.seke-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#0d3021;border-bottom:1px solid #24543e}
+.seke-top strong{color:#8fffc1}
+.seke-top small{display:block;color:#9bb8a8;font-size:12px}
+.seke-top button{background:none;border:none;color:#f2fff8;font-size:18px;cursor:pointer;margin-left:6px}
+#sekeAjustes{display:none;padding:12px 16px;background:#0b291c;border-bottom:1px solid #24543e;font-size:13px;color:#b8d0c3}
+#sekeAjustes.abierto{display:block}
+#sekeAjustes input{width:100%;margin:4px 0 8px;padding:8px 10px;border-radius:8px;border:1px solid #24543e;background:#06150f;color:#f2fff8}
+#sekeAjustes button{background:#50e59a;color:#032014;border:none;border-radius:20px;padding:7px 14px;font-weight:bold;cursor:pointer}
+#sekeMsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sm{max-width:85%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.sm.bot{background:#0d3021;border:1px solid #1d4d39;align-self:flex-start}
+.sm.yo{background:#50e59a;color:#032014;align-self:flex-end}
+#sekeChips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
+#sekeChips button{background:transparent;border:1px solid #4ee69a;color:#8fffc1;border-radius:16px;padding:5px 10px;font-size:12px;cursor:pointer}
+.seke-form{display:flex;gap:8px;padding:10px 12px;border-top:1px solid #24543e}
+.seke-form input{flex:1;padding:10px 14px;border-radius:20px;border:1px solid #24543e;background:#06150f;color:#f2fff8;font-size:14px}
+.seke-form button{background:#50e59a;color:#032014;border:none;border-radius:20px;padding:0 16px;font-weight:bold;cursor:pointer}
+@media(max-width:600px){#sonido{bottom:80px}}
 </style>
 </head>
 <body>
@@ -305,6 +328,24 @@ footer{text-align:center;padding:50px 20px;border-top:1px solid #214b38;color:#b
 </footer>
 
 <button id="sonido">🔊</button>
+
+<!-- SEKE -->
+<button id="sekeBtn" type="button">🤖 Yelf</button>
+<div id="sekePanel" role="dialog" aria-label="Yelf, asistente virtual">
+<div class="seke-top"><div><strong>🤖 Yelf</strong><small id="sekeModo">Asistente virtual de EL CARBONO</small></div>
+<div><button type="button" id="sekeCfg" title="Configurar IA">⚙️</button><button type="button" id="sekeCerrar" title="Cerrar">✕</button></div></div>
+<div id="sekeAjustes">
+<b>Modo IA (opcional)</b><br>Yelf ya responde sobre la app sin clave. Si quieres respuestas con IA, pega tus datos aquí. La clave solo vive mientras la página esté abierta y no se guarda.
+<input id="sekeUrl" placeholder="Endpoint (https://.../v1/chat/completions)">
+<input id="sekeModel" placeholder="Modelo">
+<input id="sekeKey" type="password" placeholder="API key">
+<button type="button" id="sekeGuardar">Activar IA</button> <span id="sekeEstado"></span>
+</div>
+<div id="sekeMsgs"></div>
+<div id="sekeChips"></div>
+<form class="seke-form" id="sekeForm"><input id="sekeIn" placeholder="Escribe tu pregunta..." autocomplete="off"><button type="submit">Enviar</button></form>
+</div>
+
 
 <!-- JAVASCRIPT -->
 <script>
@@ -576,6 +617,167 @@ document.getElementById("sonido").addEventListener("click", function(){
 
 /* INICIAR CALCULADORA */
 calcular();
+</script>
+
+
+<script>
+/* SEKE: asistente virtual (funciona sin clave; la IA es opcional) */
+(function(){
+"use strict";
+const $ = function(id){ return document.getElementById(id); };
+const norm = function(t){ return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,""); };
+
+function vals(){
+  const e = Number($("elec").value), t = Number($("trans").value), c = Number($("fuel").value), r = Number($("ren").value);
+  const act = e*0.40 + t*0.21 + c*2.31, evi = e*0.40*(r/100);
+  return {e:e,t:t,c:c,r:r,act:act,evi:evi,fin:Math.max(0,act-evi)};
+}
+
+const KB = [
+ {k:["hola","buenas","buenos dias","buenas tardes","buenas noches","hey","saludos"], r:"¡Hola! 👋 Soy Yelf, tu asistente virtual de EL CARBONO. Pregúntame sobre huella de carbono, descarbonización energética o cómo usar la página."},
+ {k:["gracias","muchas gracias","genial","perfecto","listo"], r:"¡Con gusto! 🌱 Si necesitas algo más, aquí estoy."},
+ {k:["quien eres","como te llamas","tu nombre","que eres","yelf"], r:"Soy Yelf 🤖, el asistente virtual de EL CARBONO. Te ayudo a entender la página, usar la calculadora y resolver dudas sobre huella de carbono y energías limpias."},
+ {k:["que es el carbono","de que trata","para que sirve","que es esta app","que es esta pagina","que hace la app","proyecto","pagina"], r:"EL CARBONO es una página educativa e interactiva sobre huella de carbono, contaminación y descarbonización. Tiene: una escena de contaminación con carros y humo, una calculadora de emisiones, una sección de descarbonización y otra de energías renovables."},
+ {k:["secciones","menu","navegar","apartados","partes"], r:"El menú de arriba tiene: Inicio, Contaminación, Calculadora, Descarbonización y Renovables. Al hacer clic te lleva directo a cada sección."},
+ {k:["como uso la calculadora","como usar la calculadora","como funciona la calculadora","calculadora","calcular"], r:"Para usar la calculadora:\n1. Escribe tu nombre.\n2. Mueve las barras de electricidad, transporte, combustible y % de electricidad renovable.\n3. Los resultados y la gráfica cambian solos.\n4. Pulsa ENVIAR MI REPORTE EN PDF."},
+ {k:["pdf","correo","email","enviar","reporte","recibir"], r:"Al pulsar ENVIAR MI REPORTE EN PDF, la página envía tus datos y se genera un PDF con tu nombre y tus resultados que llega al correo del administrador del proyecto. Debes escribir tu nombre antes, es obligatorio."},
+ {k:["nombre obligatorio","por que nombre","pide nombre","tu nombre"], r:"El nombre es obligatorio porque aparece en el PDF del reporte para saber quién hizo el cálculo."},
+ {k:["sheets","hoja de calculo","google sheets","guarda","guardar","datos guardados"], r:"Cada vez que alguien envía su reporte, los datos también se guardan como una fila en una hoja de Google Sheets del proyecto."},
+ {k:["factor","factores","formula","como se calcula","como calcula","0.40","0,40","2.31","0.21"], r:"La calculadora usa factores simplificados con fines educativos:\n• Electricidad: 0,40 kg CO₂e por kWh\n• Transporte: 0,21 kg CO₂e por km\n• Combustible: 2,31 kg CO₂e por litro\nEmisiones actuales = suma de los tres. Evitables = electricidad × 0,40 × % renovable. Finales = actuales − evitables."},
+ {k:["actuales","emisiones actuales"], r:"Las emisiones actuales son lo que generas por electricidad, transporte y combustible antes de contar la energía renovable, en kg de CO₂e por mes."},
+ {k:["evitables","emisiones evitables"], r:"Las emisiones evitables son lo que dejas de emitir gracias a la parte de tu electricidad que viene de fuentes renovables. Si subes el % renovable, aumentan."},
+ {k:["finales","emisiones finales"], r:"Las emisiones finales son tus emisiones actuales menos las evitables. Es la huella que te queda después de usar energía renovable."},
+ {k:["co2e","co2","que significa","unidad","kg"], r:"CO₂e significa dióxido de carbono equivalente: una unidad para sumar distintos gases de efecto invernadero en una sola medida. Aquí se expresa en kg por mes."},
+ {k:["huella de carbono","que es la huella"], r:"La huella de carbono es la cantidad de gases de efecto invernadero que producen tus actividades, como usar electricidad, moverte en vehículos o consumir combustibles."},
+ {k:["carros","carro","humo","escena","fabrica","neblina","aire"], r:"En la escena de contaminación, los carros y la fábrica sueltan humo. Cada bocanada de un carro cuenta como 1 km recorrido y el aire se va llenando de neblina: pasa de Aire limpio a Algo de humo, Contaminado y Muy contaminado."},
+ {k:["medidor","km recorridos","calidad del aire"], r:"El medidor cuenta los km de los carros y los kg de CO₂e emitidos (0,21 kg por km), y muestra la calidad del aire de la escena con una barra de colores."},
+ {k:["limpiar","limpiar el aire","reiniciar","reset"], r:"El botón 🍃 Limpiar el aire pone en cero el medidor de la escena (km y CO₂e) y quita la neblina."},
+ {k:["descarbonizacion","descarbonizar","transicion","barra de transicion","fosiles"], r:"La descarbonización es reducir las emisiones de carbono, por ejemplo cambiando combustibles fósiles por energías limpias. En esa sección mueves una barra y la fábrica va desapareciendo para representar la transición."},
+ {k:["renovable","renovables","energia","energias","solar","eolica","hidroelectrica","geotermica","biomasa","marina"], r:"En la página se explican seis energías renovables: solar, eólica, hidroeléctrica, geotérmica, marina y biomasa. Son fuentes que se regeneran continuamente, por eso emiten mucho menos carbono."},
+ {k:["acciones","que puedo hacer","ayudar","reducir","consejos","como reducir"], r:"Algunas acciones: usar la energía de forma eficiente, apoyar las energías renovables, preferir caminar, bicicleta o transporte público, y proteger los ecosistemas. Prueba en la calculadora subir el % renovable o bajar los km para ver cuánto cambia tu huella."},
+ {k:["sonido","audio","altavoz","musica"], r:"El botón 🔊 de la esquina inferior derecha activa o desactiva el sonido de la página."},
+ {k:["celular","movil","telefono"], r:"La página es adaptable: se ve bien en celular, tablet y computador."},
+ {k:["quien hizo","creador","autor","quien creo"], r:"EL CARBONO es un proyecto educativo. Lo creó su autor como trabajo de clase sobre huella de carbono y descarbonización."},
+
+ {k:["que es la huella de carbono","que es huella de carbono","definicion de huella"], r:"La huella de carbono es la cantidad total de gases de efecto invernadero que genera una persona, empresa, producto o actividad, expresada en CO₂e (dióxido de carbono equivalente). Se calcula sumando emisiones por energía, transporte, consumo y residuos."},
+ {k:["huella personal","huella de una empresa","huella corporativa","huella organizacional","huella de un producto"], r:"La huella de carbono se puede medir a distintas escalas: personal (tu electricidad, transporte y consumo), de una empresa u organización, de un producto durante su ciclo de vida o de un país. Esta página se enfoca en la huella personal mensual."},
+ {k:["que es descarbonizar","que es la descarbonizacion","descarbonizacion energetica","que es descarbonizacion"], r:"La descarbonización energética es el proceso de reducir las emisiones de carbono del sistema de energía: pasar de combustibles fósiles (carbón, petróleo, gas) a fuentes limpias como solar, eólica o hidroeléctrica, usar la energía con más eficiencia y electrificar sectores como el transporte."},
+ {k:["gases de efecto invernadero","gei","efecto invernadero","metano","oxido nitroso"], r:"Los principales gases de efecto invernadero son el dióxido de carbono (CO₂), el metano (CH₄) y el óxido nitroso (N₂O), además de gases fluorados. Atrapan calor en la atmósfera. El metano retiene mucho más calor que el CO₂ por molécula, aunque permanece menos tiempo. Por eso se usa la unidad CO₂e."},
+ {k:["cambio climatico","calentamiento global","aumento de temperatura"], r:"El cambio climático es el aumento sostenido de la temperatura media del planeta, causado sobre todo por las emisiones de gases de efecto invernadero al quemar combustibles fósiles. Provoca sequías, inundaciones, deshielo y aumento del nivel del mar. Reducir la huella de carbono ayuda a frenarlo."},
+ {k:["alcance 1","alcance 2","alcance 3","alcances","scope"], r:"En el Protocolo de GEI, las emisiones de una organización se clasifican en alcances:\n• Alcance 1: emisiones directas (combustibles quemados por la propia organización).\n• Alcance 2: emisiones indirectas por la electricidad que compra.\n• Alcance 3: otras emisiones indirectas de su cadena de valor (proveedores, viajes, productos vendidos)."},
+ {k:["reduzco mi huella","como reduzco","como puedo reducir","reducir emisiones","reducir mi huella","reducir la huella","bajar mi huella","disminuir mi huella","disminuir emisiones"], r:"Para reducir tu huella de carbono:\n1. Ahorra electricidad y usa equipos eficientes.\n2. Elige energía renovable cuando puedas.\n3. Camina, usa bicicleta o transporte público; si manejas, comparte el viaje.\n4. Reduce el consumo de combustible.\n5. Consume menos, reutiliza y recicla.\nEn la calculadora puedes probar cuánto cambia tu huella al mover las barras."},
+ {k:["neutralidad","carbono neutral","net zero","cero emisiones","emisiones netas cero","carbono cero"], r:"La neutralidad de carbono (o emisiones netas cero) significa que las emisiones que se producen quedan equilibradas con las que se absorben o eliminan, por ejemplo con bosques o tecnologías de captura. Primero se debe reducir al máximo y solo lo restante se compensa."},
+ {k:["compensar","compensacion","bonos de carbono","mercado de carbono","creditos de carbono"], r:"Compensar emisiones es financiar proyectos que reducen o capturan carbono (como reforestación o energías limpias) para equilibrar las propias. Es un complemento, no un sustituto: lo más efectivo es reducir primero las emisiones en la fuente."},
+ {k:["transicion energetica","matriz energetica","matriz electrica","sistema energetico"], r:"La transición energética es el cambio gradual del sistema energético: de depender de combustibles fósiles a usar más fuentes renovables, eficiencia energética, electrificación y almacenamiento. Es la base de la descarbonización."},
+ {k:["combustibles fosiles","petroleo","carbon mineral","gas natural","gasolina","diesel"], r:"Los combustibles fósiles (carbón, petróleo y gas natural) se formaron durante millones de años y al quemarse liberan CO₂ que estaba almacenado. Son la mayor fuente de emisiones globales, por eso la descarbonización busca reemplazarlos por fuentes limpias."},
+ {k:["eficiencia energetica","ahorrar energia","ahorro de energia","consumo de energia","ahorro de electricidad"], r:"La eficiencia energética es lograr lo mismo usando menos energía: bombillos LED, electrodomésticos eficientes, buen aislamiento, apagar lo que no usas. Es la medida más barata y rápida para reducir emisiones."},
+ {k:["vehiculo electrico","carro electrico","movilidad electrica","electrificacion","moto electrica","bicicleta electrica"], r:"Los vehículos eléctricos no emiten gases por el tubo de escape y son más eficientes que los de combustión. Su impacto total depende de qué tan limpia sea la electricidad que usan: con energía renovable, la reducción de emisiones es mayor. Electrificar el transporte es clave en la descarbonización."},
+ {k:["hidrogeno verde","hidrogeno"], r:"El hidrógeno verde se produce por electrólisis del agua usando electricidad renovable, sin emitir CO₂. Sirve para sectores difíciles de electrificar, como la industria pesada, el transporte marítimo y la aviación, aunque hoy es costoso."},
+ {k:["baterias","almacenamiento","almacenar energia","almacenamiento de energia"], r:"Como el sol y el viento no son constantes, el almacenamiento (baterías, bombeo hidráulico, hidrógeno) guarda energía para usarla cuando hace falta. Es clave para que las renovables sean una fuente confiable."},
+ {k:["captura de carbono","ccs","sumideros","reforestacion","bosques","arboles","absorber carbono"], r:"Los sumideros de carbono absorben más CO₂ del que emiten: bosques, océanos y suelos. También existen tecnologías de captura y almacenamiento de carbono (CCS). Proteger y restaurar ecosistemas es una forma natural y efectiva de ayudar al clima."},
+ {k:["acuerdo de paris","paris","cop28","cop27","cop26","cop"], r:"El Acuerdo de París (2015) es un tratado internacional cuyo objetivo es mantener el aumento de la temperatura global muy por debajo de 2 °C, esforzándose por no pasar de 1,5 °C. Cada país define sus metas de reducción de emisiones."},
+ {k:["ods","objetivos de desarrollo","accion climatica","ods 13","ods 7"], r:"Esta temática se relaciona con los Objetivos de Desarrollo Sostenible: el ODS 7 (energía asequible y no contaminante) y el ODS 13 (acción por el clima)."},
+ {k:["colombia","en colombia","pais"], r:"En Colombia una parte importante de la electricidad se genera con hidroeléctricas, pero el transporte y los combustibles siguen siendo grandes fuentes de emisiones. Aumentar la energía solar y eólica y mejorar la movilidad son claves para descarbonizar."},
+ {k:["ayuda","que puedes hacer","que sabes","opciones"], r:"Puedo ayudarte con: cómo usar la calculadora, qué significan los resultados, cómo se calcula, el PDF por correo, la escena de contaminación, la descarbonización y las energías renovables. También puedo decirte cuáles son tus resultados actuales: pregúntame «¿cuáles son mis emisiones?»."}
+];
+
+const SYS = "Eres Yelf, el asistente virtual de EL CARBONO, una página educativa. Eres experto en huella de carbono y descarbonización energética: gases de efecto invernadero, alcances 1, 2 y 3, transición energética, energías renovables, eficiencia energética, movilidad eléctrica, hidrógeno verde, almacenamiento, captura de carbono, neutralidad y Acuerdo de París. Responde siempre en español, de forma breve, clara y amable. También conoces la app: tiene escena de contaminación con carros y medidor, calculadora (electricidad 0,40 kg CO2e/kWh, transporte 0,21 kg/km, combustible 2,31 kg/L; evitables = electricidad*0,40*%renovable; finales = actuales - evitables), envío del reporte en PDF por correo con el nombre de la persona, sección de descarbonización y de energías renovables. Si preguntan algo ajeno a estos temas, ayuda brevemente y vuelve a orientar hacia la huella de carbono y la descarbonización.";
+
+function local(q){
+  const n = norm(q);
+  if(/(mis|mi) (emision|huella|resultado)|cuanto emito|cuales son mis|mi calculo/.test(n)){
+    const v = vals();
+    return "Con los valores actuales de tu calculadora:\n• Electricidad: "+v.e+" kWh/mes\n• Transporte: "+v.t+" km/mes\n• Combustible: "+v.c+" L/mes\n• Renovable: "+v.r+" %\n\nEmisiones actuales: "+v.act.toFixed(1)+" kg CO₂e/mes\nEvitables: "+v.evi.toFixed(1)+" kg CO₂e/mes\nFinales: "+v.fin.toFixed(1)+" kg CO₂e/mes";
+  }
+  let mejor = null, max = 0;
+  KB.forEach(function(it){
+    let pts = 0;
+    it.k.forEach(function(k){ if(n.indexOf(norm(k)) !== -1) pts += k.length; });
+    if(pts > max){ max = pts; mejor = it; }
+  });
+  return mejor ? mejor.r : "No estoy seguro de haber entendido 🤔. Puedo ayudarte con huella de carbono, descarbonización energética, energías renovables, movilidad eléctrica y con el uso de la calculadora y de la página. Prueba con una de las sugerencias de abajo.";
+}
+
+let ia = null, hist = [];
+const msgs = $("sekeMsgs");
+
+function agregar(txt, quien){
+  const d = document.createElement("div");
+  d.className = "sm " + quien;
+  d.textContent = txt;
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+  return d;
+}
+
+async function responder(q){
+  if(ia){
+    const esperando = agregar("Yelf está escribiendo...", "bot");
+    hist.push({role:"user", content:q});
+    try{
+      const res = await fetch(ia.url, {
+        method:"POST",
+        headers:{"Content-Type":"application/json","Authorization":"Bearer "+ia.key},
+        body:JSON.stringify({model:ia.model, temperature:0.5,
+          messages:[{role:"system",content:SYS}].concat(hist.slice(-10))})
+      });
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const data = await res.json();
+      const txt = data.choices[0].message.content.trim();
+      hist.push({role:"assistant", content:txt});
+      esperando.textContent = txt;
+    }catch(err){
+      esperando.textContent = local(q) + "\n\n(La IA no respondió, usé mis respuestas básicas.)";
+    }
+  }else{
+    setTimeout(function(){ agregar(local(q), "bot"); }, 350);
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function enviar(q){
+  q = q.trim();
+  if(!q) return;
+  agregar(q, "yo");
+  responder(q);
+}
+
+$("sekeBtn").addEventListener("click", function(){
+  $("sekePanel").classList.toggle("abierto");
+  if(!msgs.children.length){
+    agregar("¡Hola! Soy Yelf 🌱, tu asistente virtual de EL CARBONO. Soy experto en huella de carbono y descarbonización energética. Pregúntame lo que quieras o sobre cómo usar la página.", "bot");
+  }
+});
+$("sekeCerrar").addEventListener("click", function(){ $("sekePanel").classList.remove("abierto"); });
+$("sekeCfg").addEventListener("click", function(){ $("sekeAjustes").classList.toggle("abierto"); });
+$("sekeForm").addEventListener("submit", function(ev){
+  ev.preventDefault();
+  const i = $("sekeIn");
+  enviar(i.value);
+  i.value = "";
+});
+$("sekeGuardar").addEventListener("click", function(){
+  const url = $("sekeUrl").value.trim(), model = $("sekeModel").value.trim(), key = $("sekeKey").value.trim();
+  if(url && model && key){
+    ia = {url:url, model:model, key:key};
+    $("sekeKey").value = "";
+    $("sekeEstado").textContent = "✅ IA activada";
+    $("sekeModo").textContent = "Modo IA activado";
+  }else{
+    ia = null;
+    $("sekeEstado").textContent = "Completa los 3 campos";
+    $("sekeModo").textContent = "Asistente virtual de EL CARBONO";
+  }
+});
+
+["¿Qué es la huella de carbono?","¿Qué es descarbonizar?","¿Cómo reduzco mi huella?","¿Cómo uso la calculadora?"].forEach(function(t){
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = t;
+  b.addEventListener("click", function(){ enviar(t); });
+  $("sekeChips").appendChild(b);
+});
+})();
 </script>
 
 </body>
