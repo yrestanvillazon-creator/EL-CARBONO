@@ -69,6 +69,7 @@ to{transform:translate(var(--dx,-30px),var(--dy,-70px)) scale(var(--s,3.4));opac
 .control label{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px}
 .valor{color:#8fffc1;font-weight:bold}
 input[type="range"]{width:100%;accent-color:#4ee69a;cursor:pointer;height:8px}
+#nombre{width:100%;padding:12px 16px;border-radius:12px;border:1px solid #24543e;background:#06150f;color:#f2fff8;font-size:16px}
 .resultados{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-top:30px}
 .resultado{background:#0d3021;border:1px solid #23543e;border-radius:18px;padding:20px;text-align:center}
 .resultado strong{display:block;font-size:30px;color:#8fffc1;margin:8px}
@@ -202,6 +203,11 @@ footer{text-align:center;padding:50px 20px;border-top:1px solid #214b38;color:#b
 <div class="calculadora">
 
 <div class="control">
+<label for="nombre"><span>👤 Tu nombre</span></label>
+<input id="nombre" type="text" maxlength="60" placeholder="Escribe tu nombre completo" autocomplete="name">
+</div>
+
+<div class="control">
 <label><span>⚡ Electricidad</span><span class="valor"><span id="elecValor">250</span> kWh/mes</span></label>
 <input id="elec" type="range" min="0" max="2000" step="10" value="250">
 </div>
@@ -232,7 +238,7 @@ footer{text-align:center;padding:50px 20px;border-top:1px solid #214b38;color:#b
 <canvas id="grafica" width="900" height="280"></canvas>
 
 <div style="text-align:center">
-<button type="button" id="guardar" class="boton boton-verde">📊 GUARDAR ESCENARIO EN GOOGLE SHEETS</button>
+<button type="button" id="guardar" class="boton boton-verde">📄 ENVIAR MI REPORTE EN PDF</button>
 <p id="saveStatus" class="estado"></p>
 </div>
 
@@ -490,11 +496,18 @@ document.getElementById("transicion").addEventListener("input", function(){
   requestAnimationFrame(ciclo);
 })();
 
-/* GOOGLE SHEETS */
+/* ENVÍO AL SCRIPT: GUARDA EN GOOGLE SHEETS Y ENVÍA PDF AL CORREO */
 document.getElementById("guardar").addEventListener("click", guardarEscenario);
 
 function guardarEscenario(){
   const status = document.getElementById("saveStatus");
+  const nombre = document.getElementById("nombre").value.trim();
+
+  if(!nombre){
+    status.textContent = "⚠️ Escribe tu nombre antes de enviar.";
+    document.getElementById("nombre").focus();
+    return;
+  }
 
   const electricidad = Number(elec.value);
   const transporte = Number(trans.value);
@@ -516,6 +529,7 @@ function guardarEscenario(){
   formulario.style.display = "none";
 
   const datos = {
+    nombre: nombre,
     fecha: new Date().toLocaleString("es-CO"),
     electricidad: electricidad,
     transporte: transporte,
@@ -526,18 +540,18 @@ function guardarEscenario(){
     emisionesFinales: emisionesFinales.toFixed(2)
   };
 
-  for(const nombre in datos){
+  for(const campo in datos){
     const input = document.createElement("input");
     input.type = "hidden";
-    input.name = nombre;
-    input.value = datos[nombre];
+    input.name = campo;
+    input.value = datos[campo];
     formulario.appendChild(input);
   }
 
   document.body.appendChild(formulario);
   formulario.submit();
 
-  status.textContent = "✅ Escenario enviado. Revisa Google Sheets y tu correo.";
+  status.textContent = "✅ Listo, " + nombre + ". Tu reporte en PDF fue enviado.";
 
   setTimeout(function(){ formulario.remove(); }, 2000);
 }
